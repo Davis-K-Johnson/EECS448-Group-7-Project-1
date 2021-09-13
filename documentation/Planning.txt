@@ -1,3 +1,3 @@
-Estimated 25 people hours.
+Estimated 25 people hours. Curtis spent about 3 hours putting together the skeleton of the code, and we held a group coding session estimated to take 2-4 hours. This adds up to about 12, and we anticipated it would take another 12 or so hours maximum for refining and bugfixing the code.
 
 The current idea is to use a Model View Controller. We plan to use classes for both the game state and ships to make it modular and easy to parse.
