@@ -16,5 +16,5 @@ When a ship is sunk, a message displays and all the hit markers change somehow.
 
 End Phase
 
-When every ship on a board is sunk, the opposing player wins and both players get corresponding messages.
+When every ship on a board is sunk, the opposing player wins and both players get corresponding messages. (Is there an "end of game" menu?)
 The game is then reset to the start by deleting arrays and objects as well as changing the text values to their defaults.
