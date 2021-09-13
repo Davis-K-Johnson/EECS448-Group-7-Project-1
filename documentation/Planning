@@ -1,0 +1,3 @@
+Estimated 25 people hours.
+
+The current idea is to use a Model View Controller. We plan to use classes for both the game state and ships to make it modular and easy to parse.
