@@ -1,0 +1,20 @@
+Setup Phase:
+
+The game will prompt the player for a number of ships to play with, between 1 and 6. (Who picks the number?)
+Then it will create that many ship objects and store them in an array.
+Each player chooses vertical or horizontal for each ship and then places it on the board. (Does the player get to choose the order they place them?)
+An error is then thrown if the placement violates the rules and an error message is shown on screen.
+Once all are successfully placed, the game enters the play state.
+
+Play Phase:
+
+Turns cycle between both players and end when a shot is declared.
+Each square in the player's grid is either empty if it contains nothing or has a "#" if a ship is located there.
+Once a ship is hit on the player grid, it changes somehow.
+The enemy grid is empty but changes to either an "X" on a hit or an "O" on a miss and displays a corresponding message.
+When a ship is sunk, a message displays and all the hit markers change somehow.
+
+End Phase
+
+When every ship on a board is sunk, the opposing player wins and both players get corresponding messages.
+The game is then reset to the start by deleting arrays and objects as well as changing the text values to their defaults.
