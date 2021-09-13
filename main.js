@@ -140,3 +140,41 @@ document.addEventListener("DOMContentLoaded", () => {
     context = canvas.getContext("2d");
     refresh();
   })
+
+//Function used to translate click coordinates into grid coordinates.
+function clickCoord(x, y)
+{
+    let colDecode = "ABCDEFGHIJ"
+    let col;
+    let row;
+    let playerBoard;
+    for(var i = 0; i < 10; i++)
+    {
+        for(var j = 0; j < 9; j++)
+        {
+           if((x > 155 + i*65) && (x < 220 + i*65)){
+               if((y > 84 + j*65) && (y < 147 + j*65)){
+                   col = colDecode.charAt(i);
+                   row = j+1;
+                   playerBoard = 1;
+                }
+            }
+           if((x > 1056 + i*65) && (x < 1120 + i*65)){
+                if((y > 84 + j*65) && (y < 147 + j*65)){
+                    col = colDecode.charAt(i);
+                    row = j+1;
+                    playerBoard = 2;
+                }
+            }
+        }
+    }
+    console.log(x, y);
+    console.log(col, row);
+    console.log(playerBoard);
+    //not sure what to return but can be updated later.
+}
+
+//Prototype click event listener.
+document.addEventListener('mousedown', function(event) {
+    clickCoord(event.pageX, event.pageY);
+})
