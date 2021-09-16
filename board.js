@@ -178,49 +178,5 @@ class Board {
         }
         return false;
     }
-
-    // Going to make shoot function based off of logic tree @board.js.1
-    // will be called via a click event while phase = game.
-    // will be called with a player's turn already determined. Example call:
-    // if(phase == 'game'){
-    //      if(turn == clickCoord(event.pageX, event.pageY).playerTurn){
-    //           try{
-    //                Board[turn].Shoot(clickCoord(event.pageX, event.pageY).row, clickCoord(event.pageX, event.pageY).col));
-    //           }
-    //           catch(err){
-    //                message.innerHTML = "Error: " + err + " .";
-    //           }
-    //      }
-    // }
-    Shoot(r, c){
-        if( isValidShot(r, c) ){
-            if( isHit(r, c)){
-                ships[this.findHitShip(r, c)].setHit();
-                if ( ships[this.findHitShip(r, c)].isSunk() ){
-                    const coords = ships[this.findHitShip(r, c)].getPosition();
-                    this.setKeySunkShip(this.findHitShip(r, c) + 1, coords);
-                    this.setGameSunkShip(this.findHitShip(r, c) + 1, coords);
-                    // at this point I would check to see if the game is over
-                    // the logic tree says that if isGameOver() returns false to switch sides. switching sides will be done in main.js
-                    // if the isGameOver() returns true then the game will end, but that will happen in main also. How should we check if the games
-                    // is over but from main.js
-                    if(this.isGameOver()){
-                        
-                    }
-                }
-                else {
-                    this.setKeyHit(r, c);
-                    this.setGameHit(r, c);
-                }
-            }
-            else {
-                this.setKeyMiss(r, c);
-                this.setGameMiss(r, c);
-            }
-        }
-        else {
-            throw "invalid shot";
-        }
-    }
 }
 

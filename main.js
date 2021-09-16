@@ -43,6 +43,43 @@ Should it be you vs the cpu?
 
 let canvas;
 let context;
+let gamePhase; //either setup, play, end.
+let playerTurn = 0; //either 0 or 1.
+let shipNum;
+
+//GAME INITIALIZATION
+//function that creates the board objects and sets the game phase to setup.
+
+function gameInit()
+{
+    document.addEventListener("keydown", function(event){
+        
+    })
+    //take in an event listener keypress, make that the ships num.
+    let playerBoards = [];
+    playerBoards[0] = new Board(shipNum);
+    playerBoards[1] = new Board(shipNum);
+
+    gamePhase = "play";
+}
+
+function gameEnd()
+{
+    if(playerTurn == 0){
+        //fill the canvas with a win screen for p2
+    }
+    if(playerTurn == 1){
+        //fill the canvas with a win screen for p1
+    }
+}
+
+function setShipNum(n){
+    if(n == "1" || n == "2" || n == "3" || n == "4" || n == "5" || n == "6"){
+        shipNum = n;
+    }
+    throw "invalid number"
+}
+
 
 // used to draw all elements to the canvas
 function drawCanvas()
@@ -131,7 +168,15 @@ function refresh(n) {
     context.clearRect(0,0,canvas.width,canvas.height)
     context.font = "18pt Georgia"
     context.fillStyle = "black";
-    drawCanvas();
+    if(gamePhase == 'setup'){
+        gameInit();
+    }
+    if(gamePhase == 'play'){
+        drawCanvas();
+    }
+    if(gamePhase == 'end'){
+        // create a end screen function
+    }
     tick();
   }
 
@@ -144,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //Function used to translate click coordinates into grid coordinates.
 function clickCoord(x, y)
 {
-    let colDecode = "ABCDEFGHIJ"
     let col;
     let row;
     let playerBoard;
@@ -185,6 +229,46 @@ document.addEventListener('mousedown', function(event) {
     //need to detect what we want the coordinates to do.
     //in the intro phase of the game we need the coordinates to be referenced in a setShip call.
     //in the game phase of the game we need the coordinates to be referenced in an isValidHit call.
-    
+
     
 })
+
+// Going to make shoot function based off of logic tree @board.js.1
+    // will be called via a click event while phase = game.
+    // will be called with a player's turn already determined. Example call:
+    // if(phase == 'game'){
+    //      if(turn == clickCoord(event.pageX, event.pageY).playerTurn){
+    //           try{
+    //                Board[turn].Shoot(clickCoord(event.pageX, event.pageY).row, clickCoord(event.pageX, event.pageY).col));
+    //           }
+    //           catch(err){
+    //                message.alert("Error: " + err + " .");
+    //           }
+    //      }
+    // }
+    function Shoot(r, c){
+        if( isValidShot(r, c) ){
+            if( isHit(r, c)){
+                ships[this.findHitShip(r, c)].setHit();
+                if ( ships[this.findHitShip(r, c)].isSunk() ){
+                    const coords = ships[this.findHitShip(r, c)].getPosition();
+                    this.setKeySunkShip(this.findHitShip(r, c) + 1, coords);
+                    this.setGameSunkShip(this.findHitShip(r, c) + 1, coords);
+                    if(this.isGameOver()){
+                        gamePhase = "end";
+                    }
+                }
+                else {
+                    this.setKeyHit(r, c);
+                    this.setGameHit(r, c);
+                }
+            }
+            else {
+                this.setKeyMiss(r, c);
+                this.setGameMiss(r, c);
+            }
+        }
+        else {
+            throw "invalid shot";
+        }
+    }
