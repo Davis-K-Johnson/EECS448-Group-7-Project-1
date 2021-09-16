@@ -168,13 +168,23 @@ function clickCoord(x, y)
             }
         }
     }
-    console.log(x, y);
+    console.log(x, y); //used to debug values produced by clickCoord
     console.log(col, row);
     console.log(playerBoard);
-    //not sure what to return but can be updated later.
+    //return the col, row, and playerBoard values inside an object, reference them via clickCoord(event.pageX, event.pageY).row (or col).
+    return {
+        col,
+        row,
+        playerBoard
+    }
 }
 
 //Prototype click event listener.
 document.addEventListener('mousedown', function(event) {
-    clickCoord(event.pageX, event.pageY);
+    //clickCoord(event.pageX, event.pageY); USED TO DEBUG
+    //need to detect what we want the coordinates to do.
+    //in the intro phase of the game we need the coordinates to be referenced in a setShip call.
+    //in the game phase of the game we need the coordinates to be referenced in an isValidHit call.
+    
+    
 })
