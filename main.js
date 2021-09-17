@@ -41,7 +41,7 @@ Once a player has sunk all of the opponent's ships, they immediatley win.
 TO DO
 ---------------------------------------------------
 - Finish the "place" phase where each player will place their ships.
-- Create a "selection" square around the selected square before the shoot button is pressed.
+- Create a "selection" square around the selected square before the shoot button is pressed. (Also usefull during Place Phase) **see setHighlight
 - Finish the gamePhase logic by integrating the Shoot() function.
 - Add visual elements that help the user. "Your Ships" indicators etc.
 
@@ -49,7 +49,7 @@ TO DO
 
 let canvas;
 let context;
-let gamePhase = "setup"; //string that determines what state of the game is displayd {"setup", "place", "play", "end"}
+let gamePhase = "end"; //string that determines what state of the game is displayd {"setup", "place", "play", "end"}
 let playerTurn = 0; //int that determines which player is able to shoot and on which board, changes with each shot. { 1, 0 }
 let shipNum; //int that determines the number of ships to start the game. { 1, 2, 3, 4, 5, 6 }
 let playerBoards = []; //an array of board classes. { 0 (player 1), 1 (player 2)}
@@ -79,7 +79,7 @@ function gameSetup()
 
 function gamePlace()
 {
-    drawGrid();
+    //drawGrid();
     fillGrid();
     if(playerTurn == 0){
 
@@ -89,12 +89,46 @@ function gamePlace()
     }
 }
 
+function setHighlight(x, y, board) //  NOT WORKING, NEEDS TO BE FIXED. THIS IS CALLED VIA A CLICK EVENT DURING THE SET PHASE, SEE click Event Listener @340
+{
+    x--;
+    y--;
+    //if the selection is on the left board, draws a red square surrounding selection.
+    if(board == 0){
+        context.beginPath();
+        context.moveTo(100 + (x * 65), 75 + (y * 65));
+        context.lineTo(165 + (x * 65), 75 + (y * 65));
+        context.lineTo(165 + (x * 65), 140 + (y * 65));
+        context.lineTo(100 + (x * 65), 140 + (y * 65));
+        context.lineTo(100 + (x * 65), 75 + (y * 65));
+        context.strokeStyle = 'red';
+        context.lineWidth = 4;
+        context.stroke();
+        context.closePath();
+    }
+    //if the selection is on the right board, draws a red square surrounding selection.
+    if(board == 1){
+        context.beginPath();
+        context.moveTo(100 + (x * 65), 75 + (y * 65));
+        context.lineTo(165 + (x * 65), 75 + (y * 65));
+        context.lineTo(165 + (x * 65), 140 + (y * 65));
+        context.lineTo(100 + (x * 65), 140 + (y * 65));
+        context.lineTo(100 + (x * 65), 75 + (y * 65));
+        context.strokeStyle = 'red';
+        context.lineWidth = 4;
+        context.stroke();
+        context.closePath();
+    }
+}
+
 //GAME LOGIC
 //function that places the elements of the game on the canvas (grid, grid-elements) while the gamePhase == "play".
 function gamePlay()
 {
     drawGrid();
     fillGrid(playerTurn);
+    //WHERE PRE-SHOT HIGHLIGHTING NEEDS TO BE APPLIED
+
 }
 
 //END GAME SCREEN
@@ -103,11 +137,11 @@ function gameEnd()
 {
     if(playerTurn == 0){
         //fill the canvas with a win screen for p2
-        context.fillText("Player 1 Win!", 400, 700);
+        context.fillText("Player 1 Win!", 750, 400);
     }
     if(playerTurn == 1){
         //fill the canvas with a win screen for p1
-        context.fillText("Player 2 Win!", 400, 700);
+        context.fillText("Player 2 Win!", 750, 400);
     }
 }
 
@@ -238,14 +272,14 @@ function clickCoord(x, y)
                if((y > 84 + j*65) && (y < 147 + j*65)){
                    col = i+1;
                    row = j+1;
-                   playerBoard = 1;
+                   playerBoard = 0;
                 }
             }
            if((x > 1056 + i*65) && (x < 1120 + i*65)){
                 if((y > 84 + j*65) && (y < 147 + j*65)){
                     col = i+1;
                     row = j+1;
-                    playerBoard = 2;
+                    playerBoard = 1;
                 }
             }
         }
@@ -259,40 +293,27 @@ function clickCoord(x, y)
         playerBoard
     }
 }
-
-// Going to make shoot function based off of logic tree @board.js.1
-    // will be called via a click event while phase = game.
-    // will be called with a player's turn already determined. Example call:
-    // if(phase == 'game'){
-    //      if(turn == clickCoord(event.pageX, event.pageY).playerTurn){
-    //           try{
-    //                Board[turn].Shoot(clickCoord(event.pageX, event.pageY).row, clickCoord(event.pageX, event.pageY).col));
-    //           }
-    //           catch(err){
-    //                alert("Error: " + err + " .");
-    //           }
-    //      }
-    // }
+// NOT FINISHED, NEEDS TO CHECK THE playerTurn VALUE BEFORE STARTING LOGIC TREE, .setKeyHit & .setGameHit need to be called with different boards, not the same board.
 function Shoot(r, c){
     if( isValidShot(r, c) ){
         if( isHit(r, c)){
-            ships[this.findHitShip(r, c)].setHit();
-            if ( ships[this.findHitShip(r, c)].isSunk() ){
-                const coords = ships[this.findHitShip(r, c)].getPosition();
-                this.setKeySunkShip(this.findHitShip(r, c) + 1, coords);
-                this.setGameSunkShip(this.findHitShip(r, c) + 1, coords);
-                if(this.isGameOver()){
+            ships[playerBoards[playerTurn].findHitShip(r, c)].setHit();
+            if ( ships[playerBoards[playerTurn].findHitShip(r, c)].isSunk() ){
+                const coords = ships[playerBoards[playerTurn].findHitShip(r, c)].getPosition();
+                playerBoards[playerTurn].setKeySunkShip(playerBoards[playerTurn].findHitShip(r, c) + 1, coords);
+                playerBoards[playerTurn].setGameSunkShip(playerBoards[playerTurn].findHitShip(r, c) + 1, coords);
+                if(playerBoards[playerTurn].isGameOver()){
                     gamePhase = "end";
                 }
             }
             else {
-                this.setKeyHit(r, c);
-                this.setGameHit(r, c);
+                playerBoards[playerTurn].setKeyHit(r, c);
+                playerBoards[playerTurn].setGameHit(r, c);
             }
         }
         else {
-            this.setKeyMiss(r, c);
-            this.setGameMiss(r, c);
+            playerBoards[playerTurn].setKeyMiss(r, c);
+            playerBoards[playerTurn].setGameMiss(r, c);
         }
     }
     else {
@@ -334,7 +355,13 @@ document.addEventListener('mousedown', function(event) {
             }
         }
     }
+    if(gamePhase == "place"){
+        var row = clickCoord(event.pageX, event.pageY).row;
+        var col = clickCoord(event.pageX, event.pageY).col;
+        var turn = clickCoord(event.pageX, event.pageY).playerBoard;
+        setHighlight(row, col, turn);
+    }
     if(gamePhase == "play"){
-        clickCoord(event.pageX, event.pageY);
+        //clickCoord(event.pageX, event.pageY);
     }
 })
