@@ -43,50 +43,66 @@ Should it be you vs the cpu?
 
 let canvas;
 let context;
-let gamePhase; //either setup, play, end.
+let gamePhase = "setup"; //either setup, play, end.
 let playerTurn = 0; //either 0 or 1.
 let shipNum;
+let playerBoards = [];
+let userShips;
 
 //GAME INITIALIZATION
 //function that creates the board objects and sets the game phase to setup.
 
-function gameInit()
+function gameSetup()
 {
-    document.addEventListener("keydown", function(event){
-        
-    })
-    //take in an event listener keypress, make that the ships num.
-    let playerBoards = [];
-    playerBoards[0] = new Board(shipNum);
-    playerBoards[1] = new Board(shipNum);
+    context.fillText("Press a key:", 800, 210);
+    context.fillText("Select a number of ships. 1-6", 720, 250);
+    context.beginPath();
+    context.moveTo(720, 600);
+    context.lineTo(1000, 600);
+    context.lineTo(1000, 700);
+    context.lineTo(720, 700);
+    context.lineTo(720, 600);
+    context.strokeStyle = 'black';
+    context.lineWidth = 2;
+    context.stroke();
+    context.closePath();
+    context.fillText("Confirm Selection", 770, 655);
 
-    gamePhase = "play";
+    //while(userShips != ""){
+    //    context.fillText(userShips, 900, 500);
+    //}
+    
+
+}
+
+function gamePlay()
+{
+    console.log(playerBoards[playerTurn].shipNum);
+    drawGrid();
+    fillGrid(playerTurn);
 }
 
 function gameEnd()
 {
     if(playerTurn == 0){
         //fill the canvas with a win screen for p2
+        context.fillText("Player 1 Win!", 400, 700);
     }
     if(playerTurn == 1){
         //fill the canvas with a win screen for p1
+        context.fillText("Player 2 Win!", 400, 700);
     }
 }
 
 function setShipNum(n){
-    if(n == "1" || n == "2" || n == "3" || n == "4" || n == "5" || n == "6"){
+//    if(n != "1" && n != "2" && n != "3" && n != "4" && n != "5" && n != "6"){
+//        console.log("Throw");
+//        throw "invalid number";
+//    }
+//    else{
+        console.log("No Throw");
         shipNum = n;
-    }
-    throw "invalid number"
-}
-
-
-// used to draw all elements to the canvas
-function drawCanvas()
-{
-    drawGrid();
-    //fillGrid(1);
-    //fillGrid(2);
+//    }
 }
 
 // used to draw the grid with which will contain information for the game.
@@ -147,38 +163,39 @@ function drawGrid()
 // used to fill the grid of either player with updated indicators.
 function fillGrid(player)
 {
-    for (var i = 0; i < 10; i++)
-    {
-        if(player == 1)
-        {
-
-        }
-        if(player == 2)
-        {
-
+    for (let r = 0; r < 10; r++) {
+        for (let c = 0; c < 9; c++) {
+            if(player == 0){
+                context.fillText(playerBoards[player].key[r][c], 125 + r*65, 110 + c*65);
+                context.fillText(playerBoards[player].game[r][c], 1027 + r*65, 110 + c*65);
+            }
+            if(player == 1){
+                context.fillText(playerBoards[player].game[r][c], 100 + r*65, 100 + c*65);
+                context.fillText(playerBoards[player].key[r][c], 100 + r*65, 100 + c*65);
+            }
         }
     }
 }
 
 function tick() {
     window.requestAnimationFrame(refresh);
-  }
+}
 
 function refresh(n) {
     context.clearRect(0,0,canvas.width,canvas.height)
     context.font = "18pt Georgia"
     context.fillStyle = "black";
     if(gamePhase == 'setup'){
-        gameInit();
+        gameSetup();
     }
     if(gamePhase == 'play'){
-        drawCanvas();
+        gamePlay();
     }
     if(gamePhase == 'end'){
-        // create a end screen function
+        gameEnd();
     }
     tick();
-  }
+}
 
 document.addEventListener("DOMContentLoaded", () => { 
     canvas = document.querySelector("#gameCanvas");
@@ -198,14 +215,14 @@ function clickCoord(x, y)
         {
            if((x > 155 + i*65) && (x < 220 + i*65)){
                if((y > 84 + j*65) && (y < 147 + j*65)){
-                   col = colDecode.charAt(i);
+                   col = i+1;
                    row = j+1;
                    playerBoard = 1;
                 }
             }
            if((x > 1056 + i*65) && (x < 1120 + i*65)){
                 if((y > 84 + j*65) && (y < 147 + j*65)){
-                    col = colDecode.charAt(i);
+                    col = i+1;
                     row = j+1;
                     playerBoard = 2;
                 }
@@ -224,14 +241,17 @@ function clickCoord(x, y)
 }
 
 //Prototype click event listener.
-document.addEventListener('mousedown', function(event) {
+//
+// NEEDS TO GO BEFORE SHOOT FUNCTION PLS FIX
+//
+//document.addEventListener('mousedown', function(event) {
     //clickCoord(event.pageX, event.pageY); USED TO DEBUG
     //need to detect what we want the coordinates to do.
     //in the intro phase of the game we need the coordinates to be referenced in a setShip call.
     //in the game phase of the game we need the coordinates to be referenced in an isValidHit call.
 
     
-})
+//})
 
 // Going to make shoot function based off of logic tree @board.js.1
     // will be called via a click event while phase = game.
@@ -242,33 +262,65 @@ document.addEventListener('mousedown', function(event) {
     //                Board[turn].Shoot(clickCoord(event.pageX, event.pageY).row, clickCoord(event.pageX, event.pageY).col));
     //           }
     //           catch(err){
-    //                message.alert("Error: " + err + " .");
+    //                alert("Error: " + err + " .");
     //           }
     //      }
     // }
-    function Shoot(r, c){
-        if( isValidShot(r, c) ){
-            if( isHit(r, c)){
-                ships[this.findHitShip(r, c)].setHit();
-                if ( ships[this.findHitShip(r, c)].isSunk() ){
-                    const coords = ships[this.findHitShip(r, c)].getPosition();
-                    this.setKeySunkShip(this.findHitShip(r, c) + 1, coords);
-                    this.setGameSunkShip(this.findHitShip(r, c) + 1, coords);
-                    if(this.isGameOver()){
-                        gamePhase = "end";
-                    }
-                }
-                else {
-                    this.setKeyHit(r, c);
-                    this.setGameHit(r, c);
+function Shoot(r, c){
+    if( isValidShot(r, c) ){
+        if( isHit(r, c)){
+            ships[this.findHitShip(r, c)].setHit();
+            if ( ships[this.findHitShip(r, c)].isSunk() ){
+                const coords = ships[this.findHitShip(r, c)].getPosition();
+                this.setKeySunkShip(this.findHitShip(r, c) + 1, coords);
+                this.setGameSunkShip(this.findHitShip(r, c) + 1, coords);
+                if(this.isGameOver()){
+                    gamePhase = "end";
                 }
             }
             else {
-                this.setKeyMiss(r, c);
-                this.setGameMiss(r, c);
+                this.setKeyHit(r, c);
+                this.setGameHit(r, c);
             }
         }
         else {
-            throw "invalid shot";
+            this.setKeyMiss(r, c);
+            this.setGameMiss(r, c);
         }
     }
+    else {
+        throw "invalid shot";
+    }
+}
+
+document.addEventListener("keydown", function(event){
+    console.log(event.key);
+    if(gamePhase == "setup"){
+        userShips = event.key;
+        //console.log(userShips);
+    }
+})
+
+document.addEventListener('mousedown', function(event) {
+    console.log(event.pageX, event.pageY);
+    if(gamePhase == "setup"){
+        if(770 < event.pageX && 1056 > event.pageX){
+            if(607 < event.pageY && 708 > event.pageY){
+    //                try {
+                    setShipNum(userShips);
+                    playerBoards[0] = new Board(shipNum);
+                    playerBoards[1] = new Board(shipNum);
+                    
+                    gamePhase = "play";
+    //                }
+    //                catch(err){
+    //                    alert("Error: " + err + " .");
+    //                    gameSetup();
+    //                }
+            }
+        }
+    }
+    if(gamePhase == "play"){
+        clickCoord(event.pageX, event.pageY);
+    }
+})

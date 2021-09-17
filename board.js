@@ -64,10 +64,10 @@ class Board {
         this.shipsSunk = 0;
         this.key = [];
         this.game = [];
-        for (let r = 0; r < 9; r++) {
+        for (let r = 0; r < 10; r++) {
             this.key[r] = [];
             this.game[r] = [];
-            for (let c = 0; c < 10; c++) {
+            for (let c = 0; c < 9; c++) {
                 this.key[r][c] = ".";
                 this.game[r][c] = ".";
             }
