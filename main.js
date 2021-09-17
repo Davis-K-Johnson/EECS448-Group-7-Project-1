@@ -36,22 +36,27 @@ Once a player has sunk all of the opponent's ships, they immediatley win.
 */
 
 /*
-Questions:
-If we have two players, do we need some kind of matchmaking?
-Should it be you vs the cpu?
+
+---------------------------------------------------
+TO DO
+---------------------------------------------------
+- Finish the "place" phase where each player will place their ships.
+- Create a "selection" square around the selected square before the shoot button is pressed.
+- Finish the gamePhase logic by integrating the Shoot() function.
+- Add visual elements that help the user. "Your Ships" indicators etc.
+
 */
 
 let canvas;
 let context;
-let gamePhase = "setup"; //either setup, play, end.
-let playerTurn = 0; //either 0 or 1.
-let shipNum;
-let playerBoards = [];
-let userShips;
+let gamePhase = "setup"; //string that determines what state of the game is displayd {"setup", "place", "play", "end"}
+let playerTurn = 0; //int that determines which player is able to shoot and on which board, changes with each shot. { 1, 0 }
+let shipNum; //int that determines the number of ships to start the game. { 1, 2, 3, 4, 5, 6 }
+let playerBoards = []; //an array of board classes. { 0 (player 1), 1 (player 2)}
+let userShips; //int that holds the value the user gives during the setup phase, will be set = to shipNum.
 
 //GAME INITIALIZATION
-//function that creates the board objects and sets the game phase to setup.
-
+//function that creates the boards and sets the game phase to setup.
 function gameSetup()
 {
     context.fillText("Press a key:", 800, 210);
@@ -67,21 +72,33 @@ function gameSetup()
     context.stroke();
     context.closePath();
     context.fillText("Confirm Selection", 770, 655);
-
-    //while(userShips != ""){
-    //    context.fillText(userShips, 900, 500);
-    //}
-    
-
+    if(userShips != null){
+        context.fillText(userShips, 850, 450);
+    }
 }
 
+function gamePlace()
+{
+    drawGrid();
+    fillGrid();
+    if(playerTurn == 0){
+
+    }
+    if(playerTurn == 0){
+        
+    }
+}
+
+//GAME LOGIC
+//function that places the elements of the game on the canvas (grid, grid-elements) while the gamePhase == "play".
 function gamePlay()
 {
-    console.log(playerBoards[playerTurn].shipNum);
     drawGrid();
     fillGrid(playerTurn);
 }
 
+//END GAME SCREEN
+//function that displays which player won the game.
 function gameEnd()
 {
     if(playerTurn == 0){
@@ -94,15 +111,16 @@ function gameEnd()
     }
 }
 
+//takes the user input and checks for a valid entry, if valid it sets the number of ships in the game.
 function setShipNum(n){
-//    if(n != "1" && n != "2" && n != "3" && n != "4" && n != "5" && n != "6"){
-//        console.log("Throw");
-//        throw "invalid number";
-//    }
-//    else{
+    if(n != "1" && n != "2" && n != "3" && n != "4" && n != "5" && n != "6"){
+        console.log("Throw");
+        throw "Invalid number, pick again";
+    }
+    else{
         console.log("No Throw");
         shipNum = n;
-//    }
+    }
 }
 
 // used to draw the grid with which will contain information for the game.
@@ -188,6 +206,9 @@ function refresh(n) {
     if(gamePhase == 'setup'){
         gameSetup();
     }
+    if(gamePhase == 'place'){
+        gamePlace();
+    }
     if(gamePhase == 'play'){
         gamePlay();
     }
@@ -229,7 +250,6 @@ function clickCoord(x, y)
             }
         }
     }
-    console.log(x, y); //used to debug values produced by clickCoord
     console.log(col, row);
     console.log(playerBoard);
     //return the col, row, and playerBoard values inside an object, reference them via clickCoord(event.pageX, event.pageY).row (or col).
@@ -239,19 +259,6 @@ function clickCoord(x, y)
         playerBoard
     }
 }
-
-//Prototype click event listener.
-//
-// NEEDS TO GO BEFORE SHOOT FUNCTION PLS FIX
-//
-//document.addEventListener('mousedown', function(event) {
-    //clickCoord(event.pageX, event.pageY); USED TO DEBUG
-    //need to detect what we want the coordinates to do.
-    //in the intro phase of the game we need the coordinates to be referenced in a setShip call.
-    //in the game phase of the game we need the coordinates to be referenced in an isValidHit call.
-
-    
-//})
 
 // Going to make shoot function based off of logic tree @board.js.1
     // will be called via a click event while phase = game.
@@ -299,6 +306,14 @@ document.addEventListener("keydown", function(event){
         userShips = event.key;
         //console.log(userShips);
     }
+    if(gamePhase == "place"){
+        if(event.key == 'h'){
+            //call switch orientation
+        }
+        if(event.key == 'v'){
+            //call switch orientation
+        }
+    }
 })
 
 document.addEventListener('mousedown', function(event) {
@@ -306,17 +321,16 @@ document.addEventListener('mousedown', function(event) {
     if(gamePhase == "setup"){
         if(770 < event.pageX && 1056 > event.pageX){
             if(607 < event.pageY && 708 > event.pageY){
-    //                try {
+                try {
                     setShipNum(userShips);
                     playerBoards[0] = new Board(shipNum);
                     playerBoards[1] = new Board(shipNum);
-                    
-                    gamePhase = "play";
-    //                }
-    //                catch(err){
-    //                    alert("Error: " + err + " .");
-    //                    gameSetup();
-    //                }
+                    gamePhase = "place";
+                    }
+                catch(err){
+                    alert("Error: " + err + " .");
+                    gameSetup();
+                }
             }
         }
     }
