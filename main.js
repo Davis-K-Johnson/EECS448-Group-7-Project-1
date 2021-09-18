@@ -89,6 +89,30 @@ function gamePlace()
     }
 }
 
+//GAME LOGIC
+//function that places the elements of the game on the canvas (grid, grid-elements) while the gamePhase == "play".
+function gamePlay()
+{
+    drawGrid();
+    fillGrid(playerTurn);
+    //WHERE PRE-SHOT HIGHLIGHTING NEEDS TO BE APPLIED
+
+}
+
+//END GAME SCREEN
+//function that displays which player won the game.
+function gameEnd()
+{
+    if(playerTurn == 0){
+        //fill the canvas with a win screen for p2
+        context.fillText("Player 1 Win!", 750, 400);
+    }
+    if(playerTurn == 1){
+        //fill the canvas with a win screen for p1
+        context.fillText("Player 2 Win!", 750, 400);
+    }
+}
+
 function setHighlight(x, y, board) //  NOT WORKING, NEEDS TO BE FIXED. THIS IS CALLED VIA A CLICK EVENT DURING THE SET PHASE, SEE click Event Listener @340
 {
     x--;
@@ -118,30 +142,6 @@ function setHighlight(x, y, board) //  NOT WORKING, NEEDS TO BE FIXED. THIS IS C
         context.lineWidth = 4;
         context.stroke();
         context.closePath();
-    }
-}
-
-//GAME LOGIC
-//function that places the elements of the game on the canvas (grid, grid-elements) while the gamePhase == "play".
-function gamePlay()
-{
-    drawGrid();
-    fillGrid(playerTurn);
-    //WHERE PRE-SHOT HIGHLIGHTING NEEDS TO BE APPLIED
-
-}
-
-//END GAME SCREEN
-//function that displays which player won the game.
-function gameEnd()
-{
-    if(playerTurn == 0){
-        //fill the canvas with a win screen for p2
-        context.fillText("Player 1 Win!", 750, 400);
-    }
-    if(playerTurn == 1){
-        //fill the canvas with a win screen for p1
-        context.fillText("Player 2 Win!", 750, 400);
     }
 }
 
@@ -346,7 +346,7 @@ document.addEventListener('mousedown', function(event) {
                     setShipNum(userShips);
                     playerBoards[0] = new Board(shipNum);
                     playerBoards[1] = new Board(shipNum);
-                    gamePhase = "place";
+                    gamePhase = "play";
                     }
                 catch(err){
                     alert("Error: " + err + " .");
