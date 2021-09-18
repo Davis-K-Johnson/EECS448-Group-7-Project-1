@@ -54,6 +54,8 @@ let playerTurn = 0; //int that determines which player is able to shoot and on w
 let shipNum; //int that determines the number of ships to start the game. { 1, 2, 3, 4, 5, 6 }
 let playerBoards = []; //an array of board classes. { 0 (player 1), 1 (player 2)}
 let userShips; //int that holds the value the user gives during the setup phase, will be set = to shipNum.
+let rowSelect; //int that stores a selected row for use after it's highlighted
+let colSelect; //int that stores a selected column for use after it's highlighted
 
 //GAME INITIALIZATION
 //function that creates the boards and sets the game phase to setup.
@@ -356,12 +358,12 @@ document.addEventListener('mousedown', function(event) {
         }
     }
     if(gamePhase == "place"){
-        var row = clickCoord(event.pageX, event.pageY).row;
-        var col = clickCoord(event.pageX, event.pageY).col;
-        var turn = clickCoord(event.pageX, event.pageY).playerBoard;
-        setHighlight(row, col, turn);
+        //clickCoord(event.pageX, event.pageY);
     }
     if(gamePhase == "play"){
-        //clickCoord(event.pageX, event.pageY);
+        rowSelect = clickCoord(event.pageX, event.pageY).row;
+        colSelect = clickCoord(event.pageX, event.pageY).col;
+        var turn = clickCoord(event.pageX, event.pageY).playerBoard;
+        setHighlight(rowSelect, colSelect, turn);
     }
 })
