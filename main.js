@@ -45,6 +45,10 @@ TO DO
 - Finish the gamePhase logic by integrating the Shoot() function.
 - Add visual elements that help the user. "Your Ships" indicators etc.
 
+Davis Johnson: For tonight I couldn't figure out the place setHighlight function. However, the measurements for clickCoord are off in a way that
+makes any click in column 1 of both boards undefined. I didn't write any of the measurements and as such didn't want to modify them to avoid
+breaking it. I also added global ints for a selected row and column since we'll need those to save the selected space for the shoot function.
+
 */
 
 let canvas;
