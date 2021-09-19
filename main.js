@@ -274,8 +274,8 @@ function clickCoord(x, y)
     {
         for(var j = 0; j < 9; j++)
         {
-           if((x > 155 + i*65) && (x < 220 + i*65)){
-               if((y > 84 + j*65) && (y < 147 + j*65)){
+           if((x > 105 + i*65) && (x < 170 + i*65)){
+               if((y > 85 + j*65) && (y < 150 + j*65)){
                    col = i+1;
                    row = j+1;
                    playerBoard = 0;
