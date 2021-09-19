@@ -41,7 +41,7 @@ Once a player has sunk all of the opponent's ships, they immediatley win.
 TO DO
 ---------------------------------------------------
 - Finish the "place" phase where each player will place their ships.
-- Create a "selection" square around the selected square before the shoot button is pressed. (Also usefull during Place Phase) **see setHighlight
+- Create a selection around the desired squares that is invalid if it extends beyond the grid
 - Finish the gamePhase logic by integrating the Shoot() function.
 - Add visual elements that help the user. "Your Ships" indicators etc.
 
@@ -103,9 +103,22 @@ function gamePlay()
 }
 
 //END GAME SCREEN
-//function that displays which player won the game.
+//function that displays which player won the game and a button to play again.
 function gameEnd()
 {
+    //confirm button
+    context.beginPath();
+    context.moveTo(720, 600);
+    context.lineTo(950, 600);
+    context.lineTo(950, 700);
+    context.lineTo(720, 700);
+    context.lineTo(720, 600);
+    context.strokeStyle = 'black';
+    context.lineWidth = 2;
+    context.stroke();
+    context.closePath();
+    context.fillText("Play Again?", 770, 655);
+
     if(playerTurn == 0){
         //fill the canvas with a win screen for p2
         context.fillText("Player 1 Win!", 750, 400);
@@ -117,7 +130,7 @@ function gameEnd()
 }
 
 
-function setHighlight(x, y, board) //  NOT WORKING, NEEDS TO BE FIXED. THIS IS CALLED VIA A CLICK EVENT DURING THE SET PHASE, SEE click Event Listener @340
+function setHighlight(x, y, board)
 {
     //if the selection is on the left board, draws a red square surrounding selection.
     if(board == 0){
@@ -435,5 +448,15 @@ document.addEventListener('mousedown', function(event) {
                 Confirm();
             }
         }
+    }
+    else if(gamePhase == "play"){
+        //add a selection square around the clicked space
+    }
+    else if(gamePhase == "end"){
+        if(720 < event.pageX && 950 > event.pageX){
+            if(600 < event.pageY && 700 > event.pageY){
+                location.reload();
+            }
+	    }
     }
 })
