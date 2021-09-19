@@ -67,8 +67,8 @@ function gameSetup()
     context.fillText("Select a number of ships. 1-6", 720, 250);
     context.beginPath();
     context.moveTo(720, 600);
-    context.lineTo(1000, 600);
-    context.lineTo(1000, 700);
+    context.lineTo(1040, 600);
+    context.lineTo(1040, 700);
     context.lineTo(720, 700);
     context.lineTo(720, 600);
     context.strokeStyle = 'black';
@@ -242,10 +242,18 @@ function drawGrid()
 
     if(gamePhase == "place")
     {
-        context.fillText("Place your ships", 770, 450);
+	if(playerTurn == 0){
+	    context.fillText("Player 1", 810, 425);
+	}
+	else if(playerTurn == 1){
+	    context.fillText("Player 2", 810, 425);
+	}
+        context.fillText("Place your ships", 760, 450);
         context.fillText("<------", 820, 480);
         let temp = "Ship being placed: " + (curShipIndex + 1).toString();
         context.fillText(temp, 300, 750);
+	context.fillText("Switch Orientation:", 740, 775);
+	context.fillText("Spacebar", 800, 800);
         temp = "Orientation: " + playerBoards[playerTurn].ships[curShipIndex].orientation;
         context.fillText(temp, 775, 750);
         context.fillText("Confirm", 1300, 750);
@@ -275,10 +283,11 @@ function drawGrid()
         context.fillText("------>", 820, 480);
         context.fillText("Fire", 1300, 750);
 	context.fillText("Legend:", 100, 700);
-	context.fillText("X = a ship on your board", 100, 725);
-	context.fillText("0 = hit on the enemy board", 100, 750);
-	context.fillText("# = miss on the enemy board", 100, 775);
-	context.fillText("number = size of a ship after it's sunk", 100, 800);
+	context.fillText(". = empty water", 100, 725);
+	context.fillText("X = a ship on your board", 100, 750);
+	context.fillText("0 = hit on the enemy board", 100, 775);
+	context.fillText("# = miss on the enemy board", 100, 800);
+	context.fillText("number = size of a ship after it's sunk", 100, 825);
 	if(playerTurn == 0){
 	    context.fillText("Player 1", 810, 425);
 	}
