@@ -411,14 +411,17 @@ function Shoot(r, c){
     if (playerBoards[playerTurn].isValidShot(r, c)) {
         if(playerBoards[op(playerTurn)].isHit(r, c)) {
             
-            let sI = playerBoards[playerTurn].findHitShip(r, c);
-            playerBoards[playerTurn].ships[sI].setHit();
+            let sI = playerBoards[op(playerTurn)].findHitShip(r, c);
+            console.log("sI: ", sI);
+            console.log(playerBoards[playerTurn].ships[sI]);
+            playerBoards[op(playerTurn)].ships[sI].setHit();
 
-            if (playerBoards[playerTurn].ships[sI].isSunk()) {
+            if (playerBoards[op(playerTurn)].ships[sI].isSunk()) {
                 
-                let coords = playerBoards[playerTurn].ships[sI].getPosition();
+                let coords = playerBoards[op(playerTurn)].ships[sI].getPosition();
                 playerBoards[op(playerTurn)].setKeySunkShip(sI + 1, coords);
                 playerBoards[playerTurn].setGameSunkShip(sI + 1, coords);
+                playerBoards[playerTurn].SunkShip();
                 
                 if(playerBoards[playerTurn].isGameOver()){
                     gamePhase = "end";
@@ -511,12 +514,13 @@ document.addEventListener('mousedown', function(event) {
         }
         if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
             if (isHighlight) {
-                try{
-                    Shoot(rowSelect, colSelect);
-                }
-                catch(err){
-                    alert("Error: " + err + " .");
-                }
+                Shoot(rowSelect, colSelect);
+//                try{
+//                    Shoot(rowSelect, colSelect);
+//                }
+//                catch(err){
+//                    alert("Error: " + err + " .");
+//                }
             }
         }
     }
