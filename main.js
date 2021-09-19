@@ -41,7 +41,7 @@ Once a player has sunk all of the opponent's ships, they immediatley win.
 TO DO
 ---------------------------------------------------
 - Finish the "place" phase where each player will place their ships.
-- Create a "selection" square around the selected square before the shoot button is pressed. (Also usefull during Place Phase) **see setHighlight
+- Create a selection around the desired squares that is invalid if it extends beyond the grid
 - Finish the gamePhase logic by integrating the Shoot() function.
 - Add visual elements that help the user. "Your Ships" indicators etc.
 
@@ -89,11 +89,11 @@ function gameSetup()
 function gamePlace()
 {
     drawGrid();
-    fillGrid();
+    fillGrid(playerTurn);
     if(playerTurn == 0){
 
     }
-    if(playerTurn == 0){
+    if(playerTurn == 1){
         
     }
 }
@@ -109,7 +109,7 @@ function gamePlay()
 }
 
 //END GAME SCREEN
-//function that displays which player won the game.
+//function that displays which player won the game and a button to play again.
 function gameEnd()
 {
     //confirm button
@@ -136,7 +136,7 @@ function gameEnd()
 }
 
 
-function setHighlight(x, y, board) //  NOT WORKING, NEEDS TO BE FIXED. THIS IS CALLED VIA A CLICK EVENT DURING THE SET PHASE, SEE click Event Listener @340
+function setHighlight(x, y, board)
 {
     //if the selection is on the left board, draws a red square surrounding selection.
     if(board == 0){
@@ -433,6 +433,23 @@ document.addEventListener('mousedown', function(event) {
             }
         }
         else if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
+            if (isHighlight) {
+                Confirm();
+            }
+        }
+    }
+    else if(gamePhase == "play"){
+	//add a selection square around the clicked space
+	if ((event.pageX > 1000 && event.pageX < 1650) && (event.pageY > 75 && event.pageY < 660)) {
+	    let temp = clickCoord(event.pageX, event.pageY);
+            if (isValidShipCoord(temp.row, temp.col, curShipIndex + 1, playerBoards[playerTurn].ships[curShipIndex].orientation)) {
+                rowSelect = temp.row;
+                colSelect = temp.col;
+                boardSelect = temp.playerBoard;
+                isHighlight = true;
+	    }
+	}
+	else if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
             if (isHighlight) {
                 Confirm();
             }
