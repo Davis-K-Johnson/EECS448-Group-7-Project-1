@@ -410,12 +410,14 @@ document.addEventListener('mousedown', function(event) {
         }
     }
     else if(gamePhase == "place"){
-        if ((event.pageX > 100 && event.page < 750) && (event.pageY > 75 && event.pageY < 660)) {
+        if ((event.pageX > 100 && event.pageX < 750) && (event.pageY > 75 && event.pageY < 660)) {
             let temp = clickCoord(event.pageX, event.pageY);
-            rowSelect = temp.row;
-            colSelect = temp.col;
-            boardSelect = temp.playerBoard;
-            isHighlight = true;
+            if (isValidShipCoord(temp.row, temp.col, curShipIndex + 1, playerBoards[playerTurn].ships[curShipIndex].orientation)) {
+                rowSelect = temp.row;
+                colSelect = temp.col;
+                boardSelect = temp.playerBoard;
+                isHighlight = true;
+            }
         }
         else if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
             Confirm();
