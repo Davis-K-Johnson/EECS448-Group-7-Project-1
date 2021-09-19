@@ -1,3 +1,6 @@
+/**
+ * a class for the ships
+ */
 class Ship {
     constructor(length) {
         this.length = length;
