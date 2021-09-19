@@ -112,6 +112,19 @@ function gamePlay()
 //function that displays which player won the game.
 function gameEnd()
 {
+    //confirm button
+    context.beginPath();
+    context.moveTo(720, 600);
+    context.lineTo(950, 600);
+    context.lineTo(950, 700);
+    context.lineTo(720, 700);
+    context.lineTo(720, 600);
+    context.strokeStyle = 'black';
+    context.lineWidth = 2;
+    context.stroke();
+    context.closePath();
+    context.fillText("Play Again?", 770, 655);
+
     if(playerTurn == 0){
         //fill the canvas with a win screen for p2
         context.fillText("Player 1 Win!", 750, 400);
@@ -420,5 +433,12 @@ document.addEventListener('mousedown', function(event) {
         else if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
             Confirm();
         }
+    }
+    else if(gamePhase == "end"){
+        if(720 < event.pageX && 950 > event.pageX){
+            if(600 < event.pageY && 700 > event.pageY){
+		location.reload();
+	    }
+	}
     }
 })
