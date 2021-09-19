@@ -85,7 +85,7 @@ function gameSetup()
 
 function gamePlace()
 {
-    //drawGrid();
+    drawGrid();
     fillGrid();
     if(playerTurn == 0){
 
@@ -215,6 +215,18 @@ function drawGrid()
     {
         context.fillText(k + 1, 65, 115 + (k*65));
         context.fillText(k + 1, 965, 115 + (k*65));
+    }
+
+    if(gamePhase == "place")
+    {
+        if(playerTurn == 0){
+            context.fillText("Place your ships", 776, 450);
+            context.fillText("<------", 820, 480);
+            context.fillText("Ship being placed: 6", 300, 750);
+            context.fillText("Orientation: V", 775, 750);3
+            context.fillText("Confirm", 1300, 750);
+            //context.beginPath();
+        }
     }
 }
 
@@ -358,7 +370,7 @@ document.addEventListener('mousedown', function(event) {
                     setShipNum(userShips);
                     playerBoards[0] = new Board(shipNum);
                     playerBoards[1] = new Board(shipNum);
-                    gamePhase = "play";
+                    gamePhase = "place";
                     }
                 catch(err){
                     alert("Error: " + err + " .");
