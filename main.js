@@ -464,7 +464,28 @@ document.addEventListener('mousedown', function(event) {
         }
     }
     else if(gamePhase == "play"){
-        // add a selection square around the clicked space
+<<<<<<< HEAD
+=======
+        if ((event.pageX > 1000 && event.pageX < 1750) && (event.pageY > 75 && event.pageY < 660)) {
+            let temp = clickCoord(event.pageX, event.pageY);
+            if (isValidShipCoord(temp.row, temp.col, curShipIndex + 1, playerBoards[playerTurn].ships[curShipIndex].orientation)) {
+                rowSelect = temp.row;
+                colSelect = temp.col;
+                boardSelect = temp.playerBoard;
+                isHighlight = true;
+            }
+        }
+        if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
+            if (isHighlight) {
+                try{
+                    Shoot(rowSelect, colSelect);
+                }
+                catch(err){
+                    alert("Error: " + err + " .");
+                }
+            }
+        }
+>>>>>>> 290df4eff72ccf47fe097176249a12a1c334068a
     }
     else if(gamePhase == "end"){
         if(720 < event.pageX && 950 > event.pageX){
