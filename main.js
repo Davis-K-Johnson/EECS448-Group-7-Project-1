@@ -104,7 +104,12 @@ function gamePlay()
 
 function gameIntermission()
 {
-    context.fillText("Player 2 Next", 750, 400);
+    if(playerTurn == 0){
+        context.fillText("Player 2 Next", 750, 400);
+    }
+    else {
+        context.fillText("Player 1 Next", 750, 400);
+    }
     context.fillText("Ready", 770, 655);
     context.beginPath();
     context.moveTo(720, 600);
