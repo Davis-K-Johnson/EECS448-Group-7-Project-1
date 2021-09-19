@@ -142,11 +142,11 @@ function setHighlight(x, y, board) //  NOT WORKING, NEEDS TO BE FIXED. THIS IS C
     //if the selection is on the right board, draws a red square surrounding selection.
     if(board == 1){
             context.beginPath();
-            context.moveTo(100 + (x * 65), 75 + (y * 65));
-            context.lineTo(165 + (x * 65), 75 + (y * 65));
-            context.lineTo(165 + (x * 65), 140 + (y * 65));
-            context.lineTo(100 + (x * 65), 140 + (y * 65));
-            context.lineTo(100 + (x * 65), 75 + (y * 65));
+            context.moveTo(1000 + (x * 65), 75 + (y * 65));
+            context.lineTo(1065 + (x * 65), 75 + (y * 65));
+            context.lineTo(1065 + (x * 65), 140 + (y * 65));
+            context.lineTo(1000 + (x * 65), 140 + (y * 65));
+            context.lineTo(1000 + (x * 65), 75 + (y * 65));
             context.strokeStyle = 'red';
             context.lineWidth = 4;
             context.stroke();
@@ -230,7 +230,7 @@ function drawGrid()
         }
         if(isHighlight == true)
         {
-            setHighlight(rowSelect, colSelect, boardSelect);
+            setHighlight(colSelect, rowSelect, boardSelect);
         }
     }
 }
