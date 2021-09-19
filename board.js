@@ -136,7 +136,7 @@ class Board {
     // Iterates through all the boards ships and returns the index of ship 
     // whose isHit function returns true with given coordinates
     findHitShip(r, c) {
-        shipIndex = -1
+        let shipIndex = -1
         for (let i = 0; i < this.shipNum; i++) {
             if (this.ships[i].isHit(r,c)) {
                 shipIndex = i;

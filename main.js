@@ -58,6 +58,7 @@ let colSelect; //int that stores a selected column for use after it's highlighte
 let boardSelect; //int that stores a selected board for use after it's highlighted
 let isHighlight = false; //denotes whether or not there is an active square highlighted
 let curShipIndex; //keeps track of shipIndex for the place phase
+let shotOutcomeText; //Global shot outcome text holder for intermission phase
 
 //GAME INITIALIZATION
 //function that creates the boards and sets the game phase to setup.
@@ -99,7 +100,8 @@ function gamePlay()
 
 function gameIntermission()
 {
-    if(playerTurn == 0){
+    context.fillText(shotOutcomeText, 750, 350);
+    if(playerTurn == 1){
         context.fillText("Player 2 Next", 750, 400);
     }
     else {
@@ -267,7 +269,7 @@ function drawGrid()
         context.stroke();
         context.closePath();
         //context.beginPath();
-        if(isHighlight == true)
+        if (isHighlight == true)
         {
             //console.log("isHighlight:", isHighlight);
             playerBoards[playerTurn].ships[curShipIndex].setPosition(rowSelect, colSelect);
@@ -297,12 +299,16 @@ function drawGrid()
         // Box around Confirm
         context.beginPath();
         context.moveTo(1250, 700);
-        context.lineTo(1440, 700);
-        context.lineTo(1440, 785);
+        context.lineTo(1400, 700);
+        context.lineTo(1400, 785);
         context.lineTo(1250, 785);
         context.lineTo(1250, 700);
         context.stroke();
         context.closePath();
+        if (isHighlight) {
+            console.log("Phase: play; isHighlight: ", isHighlight);
+            setHighlight(colSelect, rowSelect, boardSelect);
+        }
     }
 
 }
@@ -422,20 +428,24 @@ function Shoot(r, c){
     if (playerBoards[playerTurn].isValidShot(r, c)) {
         if(playerBoards[op(playerTurn)].isHit(r, c)) {
             
-            let sI = playerBoards[playerTurn].findHitShip(r, c);
-            playerBoards[playerTurn].ships[sI].setHit();
+            let sI = playerBoards[op(playerTurn)].findHitShip(r, c);
+            console.log("sI: ", sI);
+            console.log(playerBoards[playerTurn].ships[sI]);
+            playerBoards[op(playerTurn)].ships[sI].setHit();
 
-            if (playerBoards[playerTurn].ships[sI].isSunk()) {
+            if (playerBoards[op(playerTurn)].ships[sI].isSunk()) {
                 
-                let coords = playerBoards[playerTurn].ships[sI].getPosition();
+                let coords = playerBoards[op(playerTurn)].ships[sI].getPosition();
                 playerBoards[op(playerTurn)].setKeySunkShip(sI + 1, coords);
                 playerBoards[playerTurn].setGameSunkShip(sI + 1, coords);
+                playerBoards[playerTurn].SunkShip();
                 
                 if(playerBoards[playerTurn].isGameOver()){
                     gamePhase = "end";
                 }
                 else {
                     playerTurn = op(playerTurn);
+                    shotOutcomeText = "Sunk Ship #" + (sI+1).toString() + "!";
                     gamePhase = "intermission";
                 }
             }
@@ -443,6 +453,7 @@ function Shoot(r, c){
                 playerBoards[op(playerTurn)].setKeyHit(r, c);
                 playerBoards[playerTurn].setGameHit(r, c);
                 playerTurn = op(playerTurn);
+                shotOutcomeText = "It was a hit!";
                 gamePhase = "intermission"
             }
         }
@@ -450,6 +461,7 @@ function Shoot(r, c){
             playerBoards[op(playerTurn)].setKeyMiss(r, c);
             playerBoards[playerTurn].setGameMiss(r, c);
             playerTurn = op(playerTurn);
+            shotOutcomeText = "It was a miss!";
             gamePhase = "intermission"
         }
 ;
@@ -513,23 +525,22 @@ document.addEventListener('mousedown', function(event) {
         }
     }
     else if(gamePhase == "play"){
-        if ((event.pageX > 1000 && event.pageX < 1750) && (event.pageY > 75 && event.pageY < 660)) {
+        if ((event.pageX > 1000 && event.pageX < 1650) && (event.pageY > 75 && event.pageY < 660)) {
             let temp = clickCoord(event.pageX, event.pageY);
-            if (isValidShipCoord(temp.row, temp.col, curShipIndex + 1, playerBoards[playerTurn].ships[curShipIndex].orientation)) {
-                rowSelect = temp.row;
-                colSelect = temp.col;
-                boardSelect = temp.playerBoard;
-                isHighlight = true;
-            }
+            rowSelect = temp.row;
+            colSelect = temp.col;
+            boardSelect = temp.playerBoard;
+            isHighlight = true;
         }
         if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
             if (isHighlight) {
-                try{
-                    Shoot(rowSelect, colSelect);
-                }
-                catch(err){
-                    alert("Error: " + err + " .");
-                }
+                Shoot(rowSelect, colSelect);
+//                try{
+//                    Shoot(rowSelect, colSelect);
+//                }
+//                catch(err){
+//                    alert("Error: " + err + " .");
+//                }
             }
         }
     }

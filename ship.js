@@ -45,7 +45,7 @@ class Ship {
     // Iterates through this.coords to see if give (r, c) corresponds to any of the coordinates
     isHit(r, c) {
         for (let i = 0; i < this.length; i++) {
-            coord = this.coords[i];
+            let coord = this.coords[i];
             if (r == coord[0] && c == coord[1]) {
                 return true;
             }
