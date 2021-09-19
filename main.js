@@ -254,6 +254,20 @@ function drawGrid()
             }
         }
     }
+    else if (gamePhase == "play") {
+        context.fillText("Place your shot", 776, 450);
+        context.fillText("------>", 820, 480);
+        context.fillText("Fire", 1300, 750);
+        // Box around Confirm
+        context.beginPath();
+        context.moveTo(1250, 700);
+        context.lineTo(1440, 700);
+        context.lineTo(1440, 785);
+        context.lineTo(1250, 785);
+        context.lineTo(1250, 700);
+        context.stroke();
+        context.closePath();
+    }
 }
 
 // used to fill the grid of either player with updated indicators.
@@ -450,7 +464,7 @@ document.addEventListener('mousedown', function(event) {
         }
     }
     else if(gamePhase == "play"){
-        //add a selection square around the clicked space
+        // add a selection square around the clicked space
     }
     else if(gamePhase == "end"){
         if(720 < event.pageX && 950 > event.pageX){
