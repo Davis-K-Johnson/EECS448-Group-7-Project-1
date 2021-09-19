@@ -3,10 +3,8 @@ The initial estimate was 25 hours
 9/9: Planning Meeting
 Davis Johnson: 2 hours in meeting.
 Michael Perry: 2 hours in meeting
-
-9/10:
-
-9/11:
+Curtis braxdale: 2 hours in meeting
+Musau Wambua: .5 hours in meeting
 
 9/12:
 Curtis Braxdale: 3.5 hours setting up the canvas and grid elements with click events.
@@ -14,10 +12,6 @@ Michael Perry: 2 hours figuring out board and ship backend logic
 
 9/13:
 Michael Perry: 2 hours implementing board and ship logic
-
-9/14:
-
-9/15:
 
 9/16:
 Curtis Braxdale: 4 hours adding game phases, filling the grids, and general bugfixing.
@@ -30,10 +24,13 @@ Davis Johnson: 1 hour attempting to fix the setHighlight function.
 9/18: Group meeting 2
 Curtis Braxdale: 3.5 hours implementing and bugfixing pre-placement highlighting.
 Davis Johnson: 2 hours in meeting.
-Michael Perry: 5.5 hours (reading code and implementing)
+Michael Perry: 5.5 hours (reading code and implementing).
+Musau Wambua 3 hours in meeting.
 
 9/19:
-Curtis Braxdale: 3 hours finishing shoot and place phase implementation. Also Added visual elements to help the players.
+Curtis Braxdale: 5.5 Adding visual elements to help the players and documenting the code
 Davis Johnson: 3 hours finishing shoot and place phase implementation. Also Added visual elements to help the players.
 Michael Perry: 3 hours finishing shoot and place phase implementation. Also Added visual elements to help the players.
-Davis Johnson: 2 hours doing documentation.
+Musau Wambua: 3 hours finishing shoot and place phase implementation. Also Added visual elements to help the players.
+
+Total Hours: 50.5 hours
