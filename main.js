@@ -102,6 +102,22 @@ function gamePlay()
 
 }
 
+function gameIntermission()
+{
+    context.fillText("Player 2 Next", 750, 400);
+    context.fillText("Ready", 770, 655);
+    context.beginPath();
+    context.moveTo(720, 600);
+    context.lineTo(950, 600);
+    context.lineTo(950, 700);
+    context.lineTo(720, 700);
+    context.lineTo(720, 600);
+    context.strokeStyle = 'black';
+    context.lineWidth = 2;
+    context.stroke();
+    context.closePath();
+}
+
 //END GAME SCREEN
 //function that displays which player won the game and a button to play again.
 function gameEnd()
@@ -268,6 +284,7 @@ function drawGrid()
         context.stroke();
         context.closePath();
     }
+
 }
 
 // used to fill the grid of either player with updated indicators.
@@ -303,6 +320,9 @@ function refresh(n) {
     }
     if(gamePhase == 'play'){
         gamePlay();
+    }
+    if(gamePhase == 'intermission'){
+        gameIntermission();
     }
     if(gamePhase == 'end'){
         gameEnd();
@@ -394,16 +414,22 @@ function Shoot(r, c){
                 if(playerBoards[playerTurn].isGameOver()){
                     gamePhase = "end";
                 }
+                else {
+                    gamePhase = "intermission";
+                }
             }
             else {
                 playerBoards[op(playerTurn)].setKeyHit(r, c);
                 playerBoards[playerTurn].setGameHit(r, c);
+                gamePhase = "intermission"
             }
         }
         else {
             playerBoards[op(playerTurn)].setKeyMiss(r, c);
             playerBoards[playerTurn].setGameMiss(r, c);
+            gamePhase = "intermission"
         }
+;
     }
     else {
         throw "invalid shot";
@@ -483,6 +509,13 @@ document.addEventListener('mousedown', function(event) {
                 }
             }
         }
+    }
+    else if(gamePhase == "intermission"){
+        if(720 < event.pageX && 950 > event.pageX){
+            if(600 < event.pageY && 700 > event.pageY){
+                gamePhase = "play";
+            }
+	    }
     }
     else if(gamePhase == "end"){
         if(720 < event.pageX && 950 > event.pageX){
