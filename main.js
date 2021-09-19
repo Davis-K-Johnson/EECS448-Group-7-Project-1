@@ -104,7 +104,12 @@ function gamePlay()
 
 function gameIntermission()
 {
-    context.fillText("Player 2 Next", 750, 400);
+    if(playerTurn == 0){
+        context.fillText("Player 2 Next", 750, 400);
+    }
+    else {
+        context.fillText("Player 1 Next", 750, 400);
+    }
     context.fillText("Ready", 770, 655);
     context.beginPath();
     context.moveTo(720, 600);
@@ -419,18 +424,21 @@ function Shoot(r, c){
                     gamePhase = "end";
                 }
                 else {
+                    playerTurn = op(playerTurn);
                     gamePhase = "intermission";
                 }
             }
             else {
                 playerBoards[op(playerTurn)].setKeyHit(r, c);
                 playerBoards[playerTurn].setGameHit(r, c);
+                playerTurn = op(playerTurn);
                 gamePhase = "intermission"
             }
         }
         else {
             playerBoards[op(playerTurn)].setKeyMiss(r, c);
             playerBoards[playerTurn].setGameMiss(r, c);
+            playerTurn = op(playerTurn);
             gamePhase = "intermission"
         }
 ;
