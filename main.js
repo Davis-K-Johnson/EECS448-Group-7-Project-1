@@ -286,15 +286,15 @@ function clickCoord(x, y)
     {
         for(var j = 0; j < 9; j++)
         {
-           if((x > 105 + i*65) && (x < 170 + i*65)){
-               if((y > 85 + j*65) && (y < 150 + j*65)){
+           if((x > 100 + i*65) && (x < 165 + i*65)){
+               if((y > 75 + j*65) && (y < 140 + j*65)){
                    col = i+1;
                    row = j+1;
                    playerBoard = 0;
                 }
             }
-           if((x > 1056 + i*65) && (x < 1120 + i*65)){
-                if((y > 84 + j*65) && (y < 147 + j*65)){
+           if((x > 1000 + i*65) && (x < 1065 + i*65)){
+                if((y > 75 + j*65) && (y < 140 + j*65)){
                     col = i+1;
                     row = j+1;
                     playerBoard = 1;
