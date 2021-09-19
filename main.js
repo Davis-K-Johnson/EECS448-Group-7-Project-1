@@ -55,6 +55,10 @@ let shotOutcomeText; //Global shot outcome text holder for intermission phase
  */
 function gameSetup()
 {
+    context.font = "30pt Georgia";
+    context.fillText("Battleship Game", 725, 150);
+    context.font = "18pt Georgia";
+    context.fillStyle = "black";
     context.fillText("Press a key:", 800, 210);
     context.fillText("Select a number of ships. 1-6", 720, 250);
     context.beginPath();
@@ -352,7 +356,7 @@ function tick() {
  */
 function refresh() {
     context.clearRect(0,0,canvas.width,canvas.height)
-    context.font = "18pt Georgia"
+    context.font = "18pt Georgia";
     context.fillStyle = "black";
     if(gamePhase == 'setup'){
         gameSetup();
