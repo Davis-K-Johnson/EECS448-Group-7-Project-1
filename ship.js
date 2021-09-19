@@ -7,7 +7,7 @@ class Ship {
 
     // Call if user wishes for orientation to be switched
     switchOrientation() {
-        if (this.orientation = "V") {
+        if (this.orientation == "V") {
             this.orientation = "H";
         }
         else {
@@ -29,6 +29,7 @@ class Ship {
                 this.coords[i] = [this.r + i, this.c];
             }
         }
+        console.log(this.coords);
     }
 
     // This method can be used after setPosition has been called

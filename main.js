@@ -61,7 +61,8 @@ let userShips; //int that holds the value the user gives during the setup phase,
 let rowSelect; //int that stores a selected row for use after it's highlighted
 let colSelect; //int that stores a selected column for use after it's highlighted
 let boardSelect; //int that stores a selected board for use after it's highlighted
-let isHighlight; //denotes whether or not there is an active square highlighted
+let isHighlight = false; //denotes whether or not there is an active square highlighted
+let curShipIndex; //keeps track of shipIndex for the place phase
 
 //GAME INITIALIZATION
 //function that creates the boards and sets the game phase to setup.
@@ -223,14 +224,22 @@ function drawGrid()
         if(playerTurn == 0){
             context.fillText("Place your ships", 776, 450);
             context.fillText("<------", 820, 480);
-            context.fillText("Ship being placed: 6", 300, 750);
-            context.fillText("Orientation: V", 775, 750);3
+            let temp = "Ship being placed: " + (curShipIndex + 1).toString();
+            context.fillText(temp, 300, 750);
+            temp = "Orientation: " + playerBoards[playerTurn].ships[curShipIndex].orientation;
+            context.fillText(temp, 775, 750);
             context.fillText("Confirm", 1300, 750);
             //context.beginPath();
         }
         if(isHighlight == true)
         {
-            setHighlight(colSelect, rowSelect, boardSelect);
+            console.log("isHighlight:", isHighlight);
+            playerBoards[playerTurn].ships[curShipIndex].setPosition(rowSelect, colSelect);
+            let coords = playerBoards[playerTurn].ships[curShipIndex].getPosition();
+            for (let i = 0; i < curShipIndex + 1; i++) {
+                coord = coords[i];
+                setHighlight(coord[1], coord[0], boardSelect);
+            }
         }
     }
 }
@@ -279,6 +288,8 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas = document.querySelector("#gameCanvas");
     context = canvas.getContext("2d");
     refresh();
+
+    isHighlight = false;
   })
 
 //Function used to translate click coordinates into grid coordinates.
@@ -358,10 +369,9 @@ document.addEventListener("keydown", function(event){
     }
     if(gamePhase == "place"){
         if(event.key == 'h'){
-            //call switch orientation
-        }
-        if(event.key == 'v'){
-            //call switch orientation
+            console.log("TESTING: ", event.key);
+            playerBoards[playerTurn].ships[curShipIndex].switchOrientation();
+            console.log("TESTING: ", playerBoards[playerTurn].ships[curShipIndex].orientation);
         }
     }
 })
@@ -376,6 +386,8 @@ document.addEventListener('mousedown', function(event) {
                     playerBoards[0] = new Board(shipNum);
                     playerBoards[1] = new Board(shipNum);
                     gamePhase = "place";
+                    curShipIndex = 5;
+                    isHighlight = false;
                     }
                 catch(err){
                     alert("Error: " + err + " .");
@@ -384,10 +396,7 @@ document.addEventListener('mousedown', function(event) {
             }
         }
     }
-    if(gamePhase == "place"){
-        //clickCoord(event.pageX, event.pageY);
-    }
-    if(gamePhase == "place"){
+    else if(gamePhase == "place"){
         rowSelect = clickCoord(event.pageX, event.pageY).row;
         colSelect = clickCoord(event.pageX, event.pageY).col;
         boardSelect = clickCoord(event.pageX, event.pageY).playerBoard;
