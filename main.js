@@ -229,6 +229,15 @@ function drawGrid()
             temp = "Orientation: " + playerBoards[playerTurn].ships[curShipIndex].orientation;
             context.fillText(temp, 775, 750);
             context.fillText("Confirm", 1300, 750);
+            // Box around Confirm
+            context.beginPath();
+            context.moveTo(1250, 700);
+            context.lineTo(1440, 700);
+            context.lineTo(1440, 785);
+            context.lineTo(1250, 785);
+            context.lineTo(1250, 700);
+            context.stroke();
+            context.closePath();
             //context.beginPath();
         }
         if(isHighlight == true)
@@ -328,10 +337,14 @@ function clickCoord(x, y)
         playerBoard
     }
 }
+function Confirm() {
+    console.log("Hello confirm!");
+}
+
 // NOT FINISHED, NEEDS TO CHECK THE playerTurn VALUE BEFORE STARTING LOGIC TREE, .setKeyHit & .setGameHit need to be called with different boards, not the same board.
 function Shoot(r, c){
-    if (isValidShot(r, c)) {
-        if(isHit(r, c)) {
+    if (playerBoards[playerTurn].isValidShot(r, c)) {
+        if(playerBoards[op(playerTurn)].isHit(r, c)) {
             
             let sI = playerBoards[playerTurn].findHitShip(r, c);
             playerBoards[playerTurn].ships[sI].setHit();
@@ -397,9 +410,15 @@ document.addEventListener('mousedown', function(event) {
         }
     }
     else if(gamePhase == "place"){
-        rowSelect = clickCoord(event.pageX, event.pageY).row;
-        colSelect = clickCoord(event.pageX, event.pageY).col;
-        boardSelect = clickCoord(event.pageX, event.pageY).playerBoard;
-        isHighlight = true;
+        if ((event.pageX > 100 && event.page < 750) && (event.pageY > 75 && event.pageY < 660)) {
+            let temp = clickCoord(event.pageX, event.pageY);
+            rowSelect = temp.row;
+            colSelect = temp.col;
+            boardSelect = temp.playerBoard;
+            isHighlight = true;
+        }
+        else if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
+            Confirm();
+        }
     }
 })
