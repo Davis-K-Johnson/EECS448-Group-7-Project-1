@@ -464,8 +464,6 @@ document.addEventListener('mousedown', function(event) {
         }
     }
     else if(gamePhase == "play"){
-<<<<<<< HEAD
-=======
         if ((event.pageX > 1000 && event.pageX < 1750) && (event.pageY > 75 && event.pageY < 660)) {
             let temp = clickCoord(event.pageX, event.pageY);
             if (isValidShipCoord(temp.row, temp.col, curShipIndex + 1, playerBoards[playerTurn].ships[curShipIndex].orientation)) {
@@ -485,7 +483,6 @@ document.addEventListener('mousedown', function(event) {
                 }
             }
         }
->>>>>>> 290df4eff72ccf47fe097176249a12a1c334068a
     }
     else if(gamePhase == "end"){
         if(720 < event.pageX && 950 > event.pageX){
