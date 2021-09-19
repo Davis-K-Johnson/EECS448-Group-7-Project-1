@@ -259,7 +259,7 @@ function drawGrid()
         context.stroke();
         context.closePath();
         //context.beginPath();
-        if(isHighlight == true)
+        if (isHighlight == true)
         {
             //console.log("isHighlight:", isHighlight);
             playerBoards[playerTurn].ships[curShipIndex].setPosition(rowSelect, colSelect);
@@ -283,6 +283,10 @@ function drawGrid()
         context.lineTo(1250, 700);
         context.stroke();
         context.closePath();
+        if (isHighlight) {
+            console.log("Phase: play; isHighlight: ", isHighlight);
+            setHighlight(colSelect, rowSelect, boardSelect);
+        }
     }
 
 }
