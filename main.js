@@ -89,13 +89,7 @@ function gameSetup()
 function gamePlace()
 {
     drawGrid();
-    fillGrid();
-    if(playerTurn == 0){
-
-    }
-    if(playerTurn == 0){
-        
-    }
+    fillGrid(playerTurn);
 }
 
 //GAME LOGIC
@@ -219,28 +213,26 @@ function drawGrid()
 
     if(gamePhase == "place")
     {
-        if(playerTurn == 0){
-            context.fillText("Place your ships", 776, 450);
-            context.fillText("<------", 820, 480);
-            let temp = "Ship being placed: " + (curShipIndex + 1).toString();
-            context.fillText(temp, 300, 750);
-            temp = "Orientation: " + playerBoards[playerTurn].ships[curShipIndex].orientation;
-            context.fillText(temp, 775, 750);
-            context.fillText("Confirm", 1300, 750);
-            // Box around Confirm
-            context.beginPath();
-            context.moveTo(1250, 700);
-            context.lineTo(1440, 700);
-            context.lineTo(1440, 785);
-            context.lineTo(1250, 785);
-            context.lineTo(1250, 700);
-            context.stroke();
-            context.closePath();
-            //context.beginPath();
-        }
+        context.fillText("Place your ships", 776, 450);
+        context.fillText("<------", 820, 480);
+        let temp = "Ship being placed: " + (curShipIndex + 1).toString();
+        context.fillText(temp, 300, 750);
+        temp = "Orientation: " + playerBoards[playerTurn].ships[curShipIndex].orientation;
+        context.fillText(temp, 775, 750);
+        context.fillText("Confirm", 1300, 750);
+        // Box around Confirm
+        context.beginPath();
+        context.moveTo(1250, 700);
+        context.lineTo(1440, 700);
+        context.lineTo(1440, 785);
+        context.lineTo(1250, 785);
+        context.lineTo(1250, 700);
+        context.stroke();
+        context.closePath();
+        //context.beginPath();
         if(isHighlight == true)
         {
-            console.log("isHighlight:", isHighlight);
+            //console.log("isHighlight:", isHighlight);
             playerBoards[playerTurn].ships[curShipIndex].setPosition(rowSelect, colSelect);
             let coords = playerBoards[playerTurn].ships[curShipIndex].getPosition();
             for (let i = 0; i < curShipIndex + 1; i++) {
@@ -254,15 +246,15 @@ function drawGrid()
 // used to fill the grid of either player with updated indicators.
 function fillGrid(player)
 {
-    for (let r = 0; r < 10; r++) {
-        for (let c = 0; c < 9; c++) {
+    for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 10; c++) {
             if(player == 0){
-                context.fillText(playerBoards[player].key[r][c], 125 + r*65, 110 + c*65);
-                context.fillText(playerBoards[player].game[r][c], 1027 + r*65, 110 + c*65);
+                context.fillText(playerBoards[player].key[r][c], 125 + c*65, 110 + r*65);
+                context.fillText(playerBoards[player].game[r][c], 1027 + c*65, 110 + r*65);
             }
             if(player == 1){
-                context.fillText(playerBoards[player].game[r][c], 100 + r*65, 100 + c*65);
-                context.fillText(playerBoards[player].key[r][c], 100 + r*65, 100 + c*65);
+                context.fillText(playerBoards[player].key[r][c], 125 + c*65, 110 + r*65);
+                context.fillText(playerBoards[player].game[r][c], 1027 + c*65, 110 + r*65);
             }
         }
     }
@@ -337,6 +329,25 @@ function clickCoord(x, y)
 }
 function Confirm() {
     console.log("Hello confirm!");
+    if (playerBoards[playerTurn].isValidSetShip(curShipIndex)) {
+        playerBoards[playerTurn].setShip(curShipIndex);
+        curShipIndex--;
+
+        if (curShipIndex < 0) {
+            if (playerTurn == 1) {
+                playerTurn = 0;
+                gamePhase = "play";
+                isHighlight = false;
+            }
+            else {
+                curShipIndex = shipNum - 1;
+                playerTurn = 1;
+            }
+        }
+    }
+    else {
+        console.log("Cannot place ship here.");
+    }
 }
 
 // NOT FINISHED, NEEDS TO CHECK THE playerTurn VALUE BEFORE STARTING LOGIC TREE, .setKeyHit & .setGameHit need to be called with different boards, not the same board.
@@ -399,7 +410,7 @@ document.addEventListener('mousedown', function(event) {
                     playerBoards[0] = new Board(shipNum);
                     playerBoards[1] = new Board(shipNum);
                     gamePhase = "place";
-                    curShipIndex = 5;
+                    curShipIndex = shipNum - 1;
                     isHighlight = false;
                     }
                 catch(err){

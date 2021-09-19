@@ -29,7 +29,6 @@ class Ship {
                 this.coords[i] = [this.r + i, this.c];
             }
         }
-        console.log(this.coords);
     }
 
     // This method can be used after setPosition has been called

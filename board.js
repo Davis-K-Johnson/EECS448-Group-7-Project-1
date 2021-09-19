@@ -64,10 +64,10 @@ class Board {
         this.shipsSunk = 0;
         this.key = [];
         this.game = [];
-        for (let r = 0; r < 10; r++) {
+        for (let r = 0; r < 9; r++) {
             this.key[r] = [];
             this.game[r] = [];
-            for (let c = 0; c < 9; c++) {
+            for (let c = 0; c < 10; c++) {
                 this.key[r][c] = ".";
                 this.game[r][c] = ".";
             }
@@ -78,11 +78,25 @@ class Board {
         }
     }
 
+    // Makes sure that the ships coords are in a valid place to be set
+    isValidSetShip(shipIndex) {
+        let coords = this.ships[shipIndex].getPosition();
+        console.log("IsValidSetShip Coords: ", coords);
+        for (let i = 0; i < shipIndex + 1; i++) {
+            let c = coords[i];
+            if (this.key[c[0]][c[1]] != ".") {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Takes shipIndex, gets the ship coordinates, and updates key
     setShip(shipIndex) {
-        let coords = this.ships[shipIndex];
+        let coords = this.ships[shipIndex].getPosition();
+        console.log("setShip Coords: ", coords);
         for (let i = 0; i < shipIndex + 1; i++) {
-            c = coords[i]
+            let c = coords[i];
             this.key[c[0]][c[1]] = "X";
         }
     }
