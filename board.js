@@ -78,6 +78,15 @@ class Board {
         }
     }
 
+    // Takes shipIndex, gets the ship coordinates, and updates key
+    setShip(shipIndex) {
+        let coords = this.ships[shipIndex];
+        for (let i = 0; i < shipIndex + 1; i++) {
+            c = coords[i]
+            this.key[c[0]][c[1]] = "X";
+        }
+    }
+
     // Checks this boards game to see if open water for valid shot
     isValidShot(r, c) {
         if (this.game[r][c] == ".") {
