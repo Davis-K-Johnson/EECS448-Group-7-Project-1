@@ -49,8 +49,10 @@ let isHighlight = false; //denotes whether or not there is an active square high
 let curShipIndex; //keeps track of shipIndex for the place phase
 let shotOutcomeText; //Global shot outcome text holder for intermission phase
 
-//GAME INITIALIZATION
-//function that creates the boards and sets the game phase to setup.
+
+/**
+ * draws the start menu for ship selection
+ */
 function gameSetup()
 {
     context.fillText("Press a key:", 800, 210);
@@ -71,20 +73,27 @@ function gameSetup()
     }
 }
 
+/**
+ * Calls drawGrid and then fillGrid for the place phase, setting up the game board
+ */
 function gamePlace()
 {
     drawGrid();
     fillGrid(playerTurn);
 }
 
-//GAME LOGIC
-//function that places the elements of the game on the canvas (grid, grid-elements) while the gamePhase == "play".
+/**
+ * Calls drawGrid and then fillGrid for the play phase, updating the game board
+ */
 function gamePlay()
 {
     drawGrid();
     fillGrid(playerTurn);
 }
 
+/**
+ * Davis: I have no idea what this does.
+ */
 function gameIntermission()
 {
     context.fillText(shotOutcomeText, 750, 350);
@@ -107,8 +116,9 @@ function gameIntermission()
     context.closePath();
 }
 
-//END GAME SCREEN
-//function that displays which player won the game and a button to play again.
+/**
+ * Displays which player won the game and offers a choice to play again
+ */
 function gameEnd()
 {
     //confirm button
@@ -134,7 +144,12 @@ function gameEnd()
     }
 }
 
-
+/**
+ * Draws a red square around a selected coordinate
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} board 
+ */
 function setHighlight(x, y, board)
 {
     //if the selection is on the left board, draws a red square surrounding selection.
@@ -165,7 +180,10 @@ function setHighlight(x, y, board)
     }
 }
 
-//takes the user input and checks for a valid entry, if valid it sets the number of ships in the game.
+/**
+ * Takes user input for a number of ships and checks it's valid, then if it is sets the number of ships
+ * @param {number} n 
+ */
 function setShipNum(n){
     if(n != "1" && n != "2" && n != "3" && n != "4" && n != "5" && n != "6"){
         console.log("Throw");
@@ -177,7 +195,9 @@ function setShipNum(n){
     }
 }
 
-// used to draw the grid with which will contain information for the game.
+/**
+ * Draws all of the UI elements of the board depending on what phase the game is in
+ */
 function drawGrid()
 {
     //draw the horizontal lines on the left grid
@@ -300,7 +320,10 @@ function drawGrid()
 
 }
 
-// used to fill the grid of either player with updated indicators.
+/**
+ * Fills up the grid with up-to-date indicators for the spaces
+ * @param {number} player 
+ */
 function fillGrid(player)
 {
     for (let r = 0; r < 9; r++) {
@@ -317,10 +340,17 @@ function fillGrid(player)
     }
 }
 
+/**
+ * Displays a frame of animation
+ */
 function tick() {
     window.requestAnimationFrame(refresh);
 }
 
+/**
+ * Clears the display and changes the game phase to move on to the next one
+ * @param {number} n 
+ */
 function refresh(n) {
     context.clearRect(0,0,canvas.width,canvas.height)
     context.font = "18pt Georgia"
@@ -343,6 +373,9 @@ function refresh(n) {
     tick();
 }
 
+/**
+ * Davis: I don't know this one
+ */
 document.addEventListener("DOMContentLoaded", () => { 
     canvas = document.querySelector("#gameCanvas");
     context = canvas.getContext("2d");
@@ -351,7 +384,12 @@ document.addEventListener("DOMContentLoaded", () => {
     isHighlight = false;
   })
 
-//Function used to translate click coordinates into grid coordinates.
+/**
+ * Translates click coordinates into grid coordinates on the board
+ * @param {number} x 
+ * @param {number} y 
+ * @returns 
+ */
 function clickCoord(x, y)
 {
     let col;
@@ -387,6 +425,10 @@ function clickCoord(x, y)
         playerBoard
     }
 }
+
+/**
+ * Davis: I don't know this one. I think it does the confirmation of the highlight?
+ */
 function Confirm() {
     console.log("Hello confirm!");
     if (playerBoards[playerTurn].isValidSetShip(curShipIndex)) {
@@ -410,6 +452,11 @@ function Confirm() {
     }
 }
 
+/**
+ * Davis: This one needs a more detailed description than I can give
+ * @param {number} r 
+ * @param {number} c 
+ */
 function Shoot(r, c){
     if (playerBoards[playerTurn].isValidShot(r, c)) {
         if(playerBoards[op(playerTurn)].isHit(r, c)) {
@@ -456,6 +503,9 @@ function Shoot(r, c){
     }
 }
 
+/**
+ * Checks if a user presses a key and performs a different action based on the game phase
+ */
 document.addEventListener("keydown", function(event){
     console.log(event.key);
     if(gamePhase == "setup"){
@@ -473,6 +523,9 @@ document.addEventListener("keydown", function(event){
     }
 })
 
+/**
+ * Checks if a user clicks the screen and performs a different action based on the game phase
+ */
 document.addEventListener('mousedown', function(event) {
     console.log(event.pageX, event.pageY);
     if(gamePhase == "setup"){
