@@ -125,8 +125,6 @@ function gameEnd()
 
 function setHighlight(x, y, board) //  NOT WORKING, NEEDS TO BE FIXED. THIS IS CALLED VIA A CLICK EVENT DURING THE SET PHASE, SEE click Event Listener @340
 {
-    x--;
-    y--;
     //if the selection is on the left board, draws a red square surrounding selection.
     if(board == 0){
             context.beginPath();
@@ -313,15 +311,15 @@ function clickCoord(x, y)
         {
            if((x > 100 + i*65) && (x < 165 + i*65)){
                if((y > 75 + j*65) && (y < 140 + j*65)){
-                   col = i+1;
-                   row = j+1;
+                   col = i;
+                   row = j;
                    playerBoard = 0;
                 }
             }
            if((x > 1000 + i*65) && (x < 1065 + i*65)){
                 if((y > 75 + j*65) && (y < 140 + j*65)){
-                    col = i+1;
-                    row = j+1;
+                    col = i;
+                    row = j;
                     playerBoard = 1;
                 }
             }
@@ -383,8 +381,10 @@ document.addEventListener("keydown", function(event){
     if(gamePhase == "place"){
         if(event.key == 'h'){
             console.log("TESTING: ", event.key);
-            playerBoards[playerTurn].ships[curShipIndex].switchOrientation();
-            console.log("TESTING: ", playerBoards[playerTurn].ships[curShipIndex].orientation);
+            if (canSwitchOrientation(rowSelect, colSelect, curShipIndex + 1, playerBoards[playerTurn].ships[curShipIndex].orientation)) {
+                playerBoards[playerTurn].ships[curShipIndex].switchOrientation();
+                console.log("TESTING: ", playerBoards[playerTurn].ships[curShipIndex].orientation);
+            }
         }
     }
 })
@@ -420,7 +420,9 @@ document.addEventListener('mousedown', function(event) {
             }
         }
         else if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
-            Confirm();
+            if (isHighlight) {
+                Confirm();
+            }
         }
     }
 })
