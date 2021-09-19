@@ -17,13 +17,12 @@ class Ship {
         }
     }
 
-    // main.js will have the logic to make sure it's a valid position.
-    // Sets array this.coords base on position and orientation
     /**
      * sets up the array this.coords with the values the player selected
-     * @param {number} r 
-     * @param {number} c 
+     * @param {number} r row index
+     * @param {number} c column index
      */
+    // main.js will have the logic to make sure it's a valid position.
     setPosition(r, c) {
         this.r = r;
         this.c = c;
@@ -42,7 +41,7 @@ class Ship {
     // return this.coords
     /**
      * returns the coordinates of the ship after it's been put in place
-     * @returns 
+     * @returns {array} array with the coords the ship occupies
      */
     getPosition() {
         if (this.r != null && this.c != null) {
@@ -53,12 +52,11 @@ class Ship {
         }
     }
 
-    // Iterates through this.coords to see if give (r, c) corresponds to any of the coordinates
     /**
-     * 
-     * @param {number} r 
-     * @param {number} c 
-     * @returns {boolean}
+     * Iterates through the coordinate array to see if the given row and column match any entries
+     * @param {number} r row index
+     * @param {number} c column index
+     * @returns {boolean} shows if (r,c) is in the coord array
      */
     isHit(r, c) {
         for (let i = 0; i < this.length; i++) {
@@ -80,7 +78,7 @@ class Ship {
 
     /**
      * returns true if hp is 0 or less, false if not
-     * @returns {boolean}
+     * @returns {boolean} shows if hp is 0
      */
     isSunk() {
         if (this.HP <= 0) {

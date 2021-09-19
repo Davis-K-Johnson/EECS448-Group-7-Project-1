@@ -92,7 +92,7 @@ function gamePlay()
 }
 
 /**
- * Davis: I have no idea what this does.
+ * After a shot is fired, shows the results and prompts the next player to get ready.
  */
 function gameIntermission()
 {
@@ -146,9 +146,9 @@ function gameEnd()
 
 /**
  * Draws a red square around a selected coordinate
- * @param {number} x 
- * @param {number} y 
- * @param {number} board 
+ * @param {number} x x coordinate
+ * @param {number} y y coordinate
+ * @param {number} board value storing either the left or right board
  */
 function setHighlight(x, y, board)
 {
@@ -182,7 +182,7 @@ function setHighlight(x, y, board)
 
 /**
  * Takes user input for a number of ships and checks it's valid, then if it is sets the number of ships
- * @param {number} n 
+ * @param {number} n stores user input
  */
 function setShipNum(n){
     if(n != "1" && n != "2" && n != "3" && n != "4" && n != "5" && n != "6"){
@@ -322,7 +322,7 @@ function drawGrid()
 
 /**
  * Fills up the grid with up-to-date indicators for the spaces
- * @param {number} player 
+ * @param {number} player shows whose turn it is
  */
 function fillGrid(player)
 {
@@ -349,9 +349,8 @@ function tick() {
 
 /**
  * Clears the display and changes the game phase to move on to the next one
- * @param {number} n 
  */
-function refresh(n) {
+function refresh() {
     context.clearRect(0,0,canvas.width,canvas.height)
     context.font = "18pt Georgia"
     context.fillStyle = "black";
@@ -374,7 +373,7 @@ function refresh(n) {
 }
 
 /**
- * Davis: I don't know this one
+ * Waits until the dom is loaded to print to the screen
  */
 document.addEventListener("DOMContentLoaded", () => { 
     canvas = document.querySelector("#gameCanvas");
@@ -386,9 +385,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /**
  * Translates click coordinates into grid coordinates on the board
- * @param {number} x 
- * @param {number} y 
- * @returns 
+ * @param {number} x x coordinate
+ * @param {number} y y coordinate
+ * @returns {object} an object with the x and y coords as well as the board
  */
 function clickCoord(x, y)
 {
@@ -427,7 +426,7 @@ function clickCoord(x, y)
 }
 
 /**
- * Davis: I don't know this one. I think it does the confirmation of the highlight?
+ * Places a ship at the highlighted coordinate from setHighlight
  */
 function Confirm() {
     console.log("Hello confirm!");
@@ -454,8 +453,8 @@ function Confirm() {
 
 /**
  * Davis: This one needs a more detailed description than I can give
- * @param {number} r 
- * @param {number} c 
+ * @param {number} r row index
+ * @param {number} c column index
  */
 function Shoot(r, c){
     if (playerBoards[playerTurn].isValidShot(r, c)) {

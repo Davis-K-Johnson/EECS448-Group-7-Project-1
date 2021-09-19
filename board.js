@@ -80,8 +80,8 @@ class Board {
 
     /**
      * Makes sure that the ship coordinates are in a valid setup position
-     * @param {number} shipIndex 
-     * @returns {boolean}
+     * @param {number} shipIndex a spot in the ships array
+     * @returns {boolean} shows if the coordinates are valid
      */
     isValidSetShip(shipIndex) {
         let coords = this.ships[shipIndex].getPosition();
@@ -97,7 +97,7 @@ class Board {
 
     /**
      * Takes shipIndex, gets the ship coordinates, and updates the key
-     * @param {number} shipIndex 
+     * @param {number} shipIndex a spot in the ships array
      */
     setShip(shipIndex) {
         let coords = this.ships[shipIndex].getPosition();
@@ -110,9 +110,9 @@ class Board {
 
     /**
      * Checks the board's game to see if it's a valid shot due to being open water
-     * @param {number} r 
-     * @param {number} c 
-     * @returns {boolean}
+     * @param {number} r row index
+     * @param {number} c column index
+     * @returns {boolean} shows if the shot location is valid
      */
     isValidShot(r, c) {
         if (this.game[r][c] == ".") {
@@ -123,9 +123,9 @@ class Board {
 
     /**
      * Checks the board's key to see if it's been hit
-     * @param {number} r 
-     * @param {number} c 
-     * @returns {boolean}
+     * @param {number} r row index
+     * @param {number} c column index
+     * @returns {boolean} checks if the key has been hit
      */
     isHit(r, c) {
         if (this.key[r][c] == "X") {
@@ -134,42 +134,35 @@ class Board {
         return false;
     }
 
-    // This will change the coordinate value of the key to "#" (miss)
+    /**
+     * Changes the coordinate value of the key to a "#" to indicate a miss on the opponent's board
+     * @param {number} r row index
+     * @param {number} c column index
+     */
     // Use this on the opponents board if missed
     // Meaning if p1 misses call board_p2.setKeyMiss(r,c);
     // and if p2 misses call board_p1.setKeyMiss(r,c);
-
-    /**
-     * Changes the coordinate value of the key to a "#" to indicate a miss on the opponent's board
-     * @param {number} r 
-     * @param {number} c 
-     */
     setKeyMiss(r, c) {
         this.key[r][c] = "#";
     }
 
-    // This will change the coordinate value of the game to "#" (miss)
+    /**
+     * Changes the coordinate value of the game to a "#" to indicate a miss on the current player's board
+     * @param {number} r row index
+     * @param {number} c column index
+     */
     // Use this on the current users board if missed
     // Meaning if p1 misses call board_p1.setGameMiss(r,c);
     // and if p2 misses call board_p2.setGameMiss(r,c);
-
-    /**
-     * Changes the coordinate value of the game to a "#" to indicate a miss on the current player's board
-     * @param {number} r 
-     * @param {number} c 
-     */
     setGameMiss(r, c) {
         this.game[r][c] = "#";
     }
 
-    // Iterates through all the boards ships and returns the index of ship 
-    // whose isHit function returns true with given coordinates
-
     /**
      * Iterates through all the board's ships and returns the index of the ship that isHit() at the hit location
-     * @param {number} r 
-     * @param {number} c 
-     * @returns {number}
+     * @param {number} r row index
+     * @param {number} c column index
+     * @returns {number} the index of the ship that was hit
      */
     findHitShip(r, c) {
         let shipIndex = -1
@@ -181,46 +174,39 @@ class Board {
         return shipIndex;
     }
 
-    // This will change the coordinate value of the key to "0" (hit)
+    /**
+     * Changes the coordinate value of the key to a "0" to indicate a hit on the opponent's board
+     * @param {number} r row index
+     * @param {number} c column index
+     */
     // Use this on the opponents board if hit
     // Meaning if p1 hits call board_p2.setKeyHit(r,c);
     // and if p2 hits call board_p1.setKeyHit(r,c);
-
-    /**
-     * Changes the coordinate value of the key to a "0" to indicate a hit on the opponent's board
-     * @param {number} r 
-     * @param {number} c 
-     */
     setKeyHit(r, c) {
         this.key[r][c] = "0";
     }
 
-    // This will change the coordinate value of the game to "0" (hit)
+    /**
+     * Changes the coordinate value of the game to a "0" to indicate a hit on the current player's board
+     * @param {number} r row index
+     * @param {number} c column index
+     */
     // Use this on the current users board if hit
     // Meaning if p1 hits call board_p1.setKeyHit(r,c);
     // and if p2 hits call board_p2.setKeyHit(r,c);
-
-    /**
-     * Changes the coordinate value of the game to a "0" to indicate a hit on the current player's board
-     * @param {number} r 
-     * @param {number} c 
-     */
     setGameHit(r, c) {
         this.game[r][c] = "0";
     }
 
-    // This will set the coordinate values of the ship to its 
-    // corresponding length (indicating that its sunk) on the key
-    // Use this on the opponents board if sunk ship
-    // Meaning if p1 sinks a ship call board_p2.setKeySunkShip(sI+1, coords);
-    // and if p2 sinks a ship call board_p1.setKeySunkShip(sI+1, coords);
-
     /**
      * Changes the coordinate values of an entire ship on the key to the
      * ship's length to indicate a sunken ship on the opponent's board
-     * @param {number} shipLength 
-     * @param {Array} coords 
+     * @param {number} shipLength the length of the given ship
+     * @param {Array} coords an array of the given ship's coords
      */
+    // Use this on the opponents board if sunk ship
+    // Meaning if p1 sinks a ship call board_p2.setKeySunkShip(sI+1, coords);
+    // and if p2 sinks a ship call board_p1.setKeySunkShip(sI+1, coords);
     setKeySunkShip(shipLength, coords) {
         var shipChar = shipLength.toString();
         for(let i = 0; i < shipLength; i++) {
@@ -229,18 +215,15 @@ class Board {
         }
     }
 
-    // This will set the coordinate values of the ship to its
-    // corresponding length (indicating that its sunk) on the game
-    // Use this on the current users board if sunk ship
-    // Meaning if p1 sinks a ship call board_p1.setGameSunkShip(sI+1, coords);
-    // and if p2 sinks a ship call board_p2.setGameSunkShip(sI+1, coords);
-
     /**
      * Changes the coordinate values of an entire ship on the game to the
      * ship's length to indicate a sunken ship on the current player's board
-     * @param {number} shipLength 
-     * @param {array} coords 
+     * @param {number} shipLength the length of the given ship
+     * @param {Array} coords an array of the given ship's coords 
      */
+    // Use this on the current users board if sunk ship
+    // Meaning if p1 sinks a ship call board_p1.setGameSunkShip(sI+1, coords);
+    // and if p2 sinks a ship call board_p2.setGameSunkShip(sI+1, coords);
     setGameSunkShip(shipLength, coords) {
         var shipChar = shipLength.toString();
         for (let i = 0; i < shipLength; i++) {
@@ -249,14 +232,12 @@ class Board {
         }
     }
 
-    // Add 1 to this.ShipsSunk
-    // Call if current user sinks a ship
-    // Meaning if p1 sinks a ship then call board_p1.SunkShip()
-    // and if p2 sinks a ship then call board_p2.SunkShip()
-
     /**
      * Add one to the number of sunk ships on the opponen't board
      */
+    // Call if current user sinks a ship
+    // Meaning if p1 sinks a ship then call board_p1.SunkShip()
+    // and if p2 sinks a ship then call board_p2.SunkShip()
     SunkShip() {
         this.shipsSunk++;
     }
