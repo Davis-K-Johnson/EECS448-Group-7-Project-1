@@ -261,8 +261,8 @@ function drawGrid()
         // Box around Confirm
         context.beginPath();
         context.moveTo(1250, 700);
-        context.lineTo(1440, 700);
-        context.lineTo(1440, 785);
+        context.lineTo(1400, 700);
+        context.lineTo(1400, 785);
         context.lineTo(1250, 785);
         context.lineTo(1250, 700);
         context.stroke();
@@ -464,14 +464,12 @@ document.addEventListener('mousedown', function(event) {
         }
     }
     else if(gamePhase == "play"){
-        if ((event.pageX > 1000 && event.pageX < 1750) && (event.pageY > 75 && event.pageY < 660)) {
+        if ((event.pageX > 1000 && event.pageX < 1650) && (event.pageY > 75 && event.pageY < 660)) {
             let temp = clickCoord(event.pageX, event.pageY);
-            if (isValidShipCoord(temp.row, temp.col, curShipIndex + 1, playerBoards[playerTurn].ships[curShipIndex].orientation)) {
-                rowSelect = temp.row;
-                colSelect = temp.col;
-                boardSelect = temp.playerBoard;
-                isHighlight = true;
-            }
+            rowSelect = temp.row;
+            colSelect = temp.col;
+            boardSelect = temp.playerBoard;
+            isHighlight = true;
         }
         if ((event.pageX > 1250 && event.pageX < 1440) && (event.pageY > 700 && event.pageY < 785)) {
             if (isHighlight) {
