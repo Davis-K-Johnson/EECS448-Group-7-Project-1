@@ -40,15 +40,10 @@ Once a player has sunk all of the opponent's ships, they immediatley win.
 ---------------------------------------------------
 TO DO
 ---------------------------------------------------
-- Finish the "place" phase where each player will place their ships.
+- Add indicators that space switches orientation and whose turn it is
 - Create a selection around the desired squares that is invalid if it extends beyond the grid
 - Finish the gamePhase logic by integrating the Shoot() function.
 - Add visual elements that help the user. "Your Ships" indicators etc.
-
-Davis Johnson: For tonight I couldn't figure out the place setHighlight function. However, the measurements for clickCoord are off in a way that
-makes any click in column 1 of both boards undefined. I didn't write any of the measurements and as such didn't want to modify them to avoid
-breaking it. I also added global ints for a selected row and column since we'll need those to save the selected space for the shoot function.
-
 */
 
 let canvas;
@@ -226,7 +221,7 @@ function drawGrid()
 
     if(gamePhase == "place")
     {
-        context.fillText("Place your ships", 776, 450);
+        context.fillText("Place your ships", 770, 450);
         context.fillText("<------", 820, 480);
         let temp = "Ship being placed: " + (curShipIndex + 1).toString();
         context.fillText(temp, 300, 750);
@@ -255,9 +250,20 @@ function drawGrid()
         }
     }
     else if (gamePhase == "play") {
-        context.fillText("Place your shot", 776, 450);
+        context.fillText("Place your shot", 770, 450);
         context.fillText("------>", 820, 480);
         context.fillText("Fire", 1300, 750);
+	context.fillText("Legend:", 100, 700);
+	context.fillText("X = a ship on your board", 100, 725);
+	context.fillText("0 = hit on the enemy board", 100, 750);
+	context.fillText("# = miss on the enemy board", 100, 775);
+	context.fillText("number = size of a ship after it's sunk", 100, 800);
+	if(playerTurn == 0){
+	    context.fillText("Player 1", 810, 425);
+	}
+	else if(playerTurn == 1){
+	    context.fillText("Player 2", 810, 425);
+	}
         // Box around Confirm
         context.beginPath();
         context.moveTo(1250, 700);
@@ -489,6 +495,6 @@ document.addEventListener('mousedown', function(event) {
             if(600 < event.pageY && 700 > event.pageY){
                 location.reload();
             }
-	    }
+	}
     }
 })
