@@ -403,7 +403,7 @@ document.addEventListener("keydown", function(event){
         //console.log(userShips);
     }
     if(gamePhase == "place"){
-        if(event.key == 'h'){
+        if(event.key == ' '){
             console.log("TESTING: ", event.key);
             if (canSwitchOrientation(rowSelect, colSelect, curShipIndex + 1, playerBoards[playerTurn].ships[curShipIndex].orientation)) {
                 playerBoards[playerTurn].ships[curShipIndex].switchOrientation();

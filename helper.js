@@ -25,7 +25,8 @@ function isValidShipCoord(row, col, length, orientation) {
     return false;
 }
 
-// 
+// Makes sure that based on where a ship is currently placed
+// if it can switch orientation and still have valid coordinates
 function canSwitchOrientation(row, col, length, orientation) {
     if (orientation == "V") {
         if (col >= 0 && col <= 10 - length) {
