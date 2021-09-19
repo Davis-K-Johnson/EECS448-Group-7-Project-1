@@ -5,7 +5,9 @@ class Ship {
         this.orientation = "H"; // Default Horizontal
     }
 
-    // Call if user wishes for orientation to be switched
+    /**
+     * Switches the orientation of the ship in the place phase
+     */
     switchOrientation() {
         if (this.orientation == "V") {
             this.orientation = "H";
@@ -17,6 +19,11 @@ class Ship {
 
     // main.js will have the logic to make sure it's a valid position.
     // Sets array this.coords base on position and orientation
+    /**
+     * sets up the array this.coords with the values the player selected
+     * @param {number} r 
+     * @param {number} c 
+     */
     setPosition(r, c) {
         this.r = r;
         this.c = c;
@@ -33,6 +40,10 @@ class Ship {
 
     // This method can be used after setPosition has been called
     // return this.coords
+    /**
+     * returns the coordinates of the ship after it's been put in place
+     * @returns 
+     */
     getPosition() {
         if (this.r != null && this.c != null) {
             return this.coords;
@@ -43,6 +54,12 @@ class Ship {
     }
 
     // Iterates through this.coords to see if give (r, c) corresponds to any of the coordinates
+    /**
+     * 
+     * @param {number} r 
+     * @param {number} c 
+     * @returns {boolean}
+     */
     isHit(r, c) {
         for (let i = 0; i < this.length; i++) {
             let coord = this.coords[i];
@@ -54,12 +71,17 @@ class Ship {
         return false;
     }
 
-    // The board logic should check before this function is called to see a hit
+    /**
+     * hits a ship, reducing its hp
+     */
     setHit() {
         this.HP--;
     }
 
-    // If HP gets to zero then the ship is sunk
+    /**
+     * returns true if hp is 0 or less, false if not
+     * @returns {boolean}
+     */
     isSunk() {
         if (this.HP <= 0) {
             return true;

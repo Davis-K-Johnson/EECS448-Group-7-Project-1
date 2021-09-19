@@ -1,4 +1,8 @@
-// Get Opponents playerTurn int
+/**
+ * Gets the playerTurn int of the opponent: 0 for player 1 and 1 for player 2
+ * @param {number} playerTurn 
+ * @returns {number}
+ */
 function op(playerTurn) {
     if (playerTurn == 0) {
         return 1;
@@ -6,7 +10,14 @@ function op(playerTurn) {
     return 0;
 }
 
-// Find if the current position is a valid placement for the ship
+/**
+ * Find out if the current position is a valid placement for a ship
+ * @param {number} row 
+ * @param {number} col 
+ * @param {number} length 
+ * @param {string} orientation 
+ * @returns {boolean}
+ */
 function isValidShipCoord(row, col, length, orientation) {
     if (orientation == "V") {
         if (col >= 0 && col <= 9) {
@@ -25,8 +36,14 @@ function isValidShipCoord(row, col, length, orientation) {
     return false;
 }
 
-// Makes sure that based on where a ship is currently placed
-// if it can switch orientation and still have valid coordinates
+/**
+ * Checks if a ship can change orientation and still be a valid placement at the current position
+ * @param {number} row 
+ * @param {number} col 
+ * @param {number} length 
+ * @param {string} orientation 
+ * @returns {boolean}
+ */
 function canSwitchOrientation(row, col, length, orientation) {
     if (orientation == "V") {
         if (col >= 0 && col <= 10 - length) {
