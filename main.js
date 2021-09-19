@@ -63,6 +63,7 @@ let colSelect; //int that stores a selected column for use after it's highlighte
 let boardSelect; //int that stores a selected board for use after it's highlighted
 let isHighlight = false; //denotes whether or not there is an active square highlighted
 let curShipIndex; //keeps track of shipIndex for the place phase
+let shotOutcomeText; //Global shot outcome text holder for intermission phase
 
 //GAME INITIALIZATION
 //function that creates the boards and sets the game phase to setup.
@@ -104,7 +105,8 @@ function gamePlay()
 
 function gameIntermission()
 {
-    if(playerTurn == 0){
+    context.fillText(shotOutcomeText, 750, 350);
+    if(playerTurn == 1){
         context.fillText("Player 2 Next", 750, 400);
     }
     else {
@@ -428,6 +430,7 @@ function Shoot(r, c){
                 }
                 else {
                     playerTurn = op(playerTurn);
+                    shotOutcomeText = "Sunk Ship #" + (sI+1).toString() + "!";
                     gamePhase = "intermission";
                 }
             }
@@ -435,6 +438,7 @@ function Shoot(r, c){
                 playerBoards[op(playerTurn)].setKeyHit(r, c);
                 playerBoards[playerTurn].setGameHit(r, c);
                 playerTurn = op(playerTurn);
+                shotOutcomeText = "It was a hit!";
                 gamePhase = "intermission"
             }
         }
@@ -442,6 +446,7 @@ function Shoot(r, c){
             playerBoards[op(playerTurn)].setKeyMiss(r, c);
             playerBoards[playerTurn].setGameMiss(r, c);
             playerTurn = op(playerTurn);
+            shotOutcomeText = "It was a miss!";
             gamePhase = "intermission"
         }
 ;
