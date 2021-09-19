@@ -60,6 +60,8 @@ let playerBoards = []; //an array of board classes. { 0 (player 1), 1 (player 2)
 let userShips; //int that holds the value the user gives during the setup phase, will be set = to shipNum.
 let rowSelect; //int that stores a selected row for use after it's highlighted
 let colSelect; //int that stores a selected column for use after it's highlighted
+let boardSelect; //int that stores a selected board for use after it's highlighted
+let isHighlight; //denotes whether or not there is an active square highlighted
 
 //GAME INITIALIZATION
 //function that creates the boards and sets the game phase to setup.
@@ -119,35 +121,36 @@ function gameEnd()
     }
 }
 
+
 function setHighlight(x, y, board) //  NOT WORKING, NEEDS TO BE FIXED. THIS IS CALLED VIA A CLICK EVENT DURING THE SET PHASE, SEE click Event Listener @340
 {
     x--;
     y--;
     //if the selection is on the left board, draws a red square surrounding selection.
     if(board == 0){
-        context.beginPath();
-        context.moveTo(100 + (x * 65), 75 + (y * 65));
-        context.lineTo(165 + (x * 65), 75 + (y * 65));
-        context.lineTo(165 + (x * 65), 140 + (y * 65));
-        context.lineTo(100 + (x * 65), 140 + (y * 65));
-        context.lineTo(100 + (x * 65), 75 + (y * 65));
-        context.strokeStyle = 'red';
-        context.lineWidth = 4;
-        context.stroke();
-        context.closePath();
+            context.beginPath();
+            context.moveTo(100 + (x * 65), 75 + (y * 65));
+            context.lineTo(165 + (x * 65), 75 + (y * 65));
+            context.lineTo(165 + (x * 65), 140 + (y * 65));
+            context.lineTo(100 + (x * 65), 140 + (y * 65));
+            context.lineTo(100 + (x * 65), 75 + (y * 65));
+            context.strokeStyle = 'red';
+            context.lineWidth = 4;
+            context.stroke();
+            context.closePath();
     }
     //if the selection is on the right board, draws a red square surrounding selection.
     if(board == 1){
-        context.beginPath();
-        context.moveTo(100 + (x * 65), 75 + (y * 65));
-        context.lineTo(165 + (x * 65), 75 + (y * 65));
-        context.lineTo(165 + (x * 65), 140 + (y * 65));
-        context.lineTo(100 + (x * 65), 140 + (y * 65));
-        context.lineTo(100 + (x * 65), 75 + (y * 65));
-        context.strokeStyle = 'red';
-        context.lineWidth = 4;
-        context.stroke();
-        context.closePath();
+            context.beginPath();
+            context.moveTo(100 + (x * 65), 75 + (y * 65));
+            context.lineTo(165 + (x * 65), 75 + (y * 65));
+            context.lineTo(165 + (x * 65), 140 + (y * 65));
+            context.lineTo(100 + (x * 65), 140 + (y * 65));
+            context.lineTo(100 + (x * 65), 75 + (y * 65));
+            context.strokeStyle = 'red';
+            context.lineWidth = 4;
+            context.stroke();
+            context.closePath();
     }
 }
 
@@ -166,8 +169,6 @@ function setShipNum(n){
 // used to draw the grid with which will contain information for the game.
 function drawGrid()
 {
-    context.beginPath();
-    
     //draw the horizontal lines on the left grid
     context.moveTo(100, 75);
     for(var i = 0; i < 11; i++)
@@ -226,6 +227,10 @@ function drawGrid()
             context.fillText("Orientation: V", 775, 750);3
             context.fillText("Confirm", 1300, 750);
             //context.beginPath();
+        }
+        if(isHighlight == true)
+        {
+            setHighlight(rowSelect, colSelect, boardSelect);
         }
     }
 }
@@ -382,10 +387,10 @@ document.addEventListener('mousedown', function(event) {
     if(gamePhase == "place"){
         //clickCoord(event.pageX, event.pageY);
     }
-    if(gamePhase == "play"){
+    if(gamePhase == "place"){
         rowSelect = clickCoord(event.pageX, event.pageY).row;
         colSelect = clickCoord(event.pageX, event.pageY).col;
-        var turn = clickCoord(event.pageX, event.pageY).playerBoard;
-        setHighlight(rowSelect, colSelect, turn);
+        boardSelect = clickCoord(event.pageX, event.pageY).playerBoard;
+        isHighlight = true;
     }
 })
