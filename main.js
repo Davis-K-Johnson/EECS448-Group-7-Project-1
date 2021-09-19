@@ -420,18 +420,21 @@ function Shoot(r, c){
                     gamePhase = "end";
                 }
                 else {
+                    playerTurn = op(playerTurn);
                     gamePhase = "intermission";
                 }
             }
             else {
                 playerBoards[op(playerTurn)].setKeyHit(r, c);
                 playerBoards[playerTurn].setGameHit(r, c);
+                playerTurn = op(playerTurn);
                 gamePhase = "intermission"
             }
         }
         else {
             playerBoards[op(playerTurn)].setKeyMiss(r, c);
             playerBoards[playerTurn].setGameMiss(r, c);
+            playerTurn = op(playerTurn);
             gamePhase = "intermission"
         }
 ;
