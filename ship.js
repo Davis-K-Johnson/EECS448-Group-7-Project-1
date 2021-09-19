@@ -16,48 +16,38 @@ class Ship {
     }
 
     // main.js will have the logic to make sure it's a valid position.
+    // Sets array this.coords base on position and orientation
     setPosition(r, c) {
         this.r = r;
         this.c = c;
+        this.coords = [];
+        for (let i = 0; i < this.length; i++) {
+            if (this.orientation == "H") {
+                this.coords[i] = [this.r, this.c + i];
+            }
+            else {
+                this.coords[i] = [this.r + i, this.c];
+            }
+        }
     }
 
     // This method can be used after setPosition has been called
-    // The array of coordinates will be used to mark the board with it's position
+    // return this.coords
     getPosition() {
         if (this.r != null && this.c != null) {
-            coor = [];
-
-            for (let i = 0; i < this.length; i++) {
-                if (this.orientation == "H") {
-                    coor[i] = [this.r, this.c + i];
-                }
-                else {
-                    coor[i] = [this.r + i, this.c];
-                }
-            }
-
-            return coor;
+            return this.coords;
         }
         else {
             return []
         }
     }
 
-    // Knowing the this.length, this.r, and this.c checked to see
-    // if given (r, c) correspond to any of its coordinates.
+    // Iterates through this.coords to see if give (r, c) corresponds to any of the coordinates
     isHit(r, c) {
-        if (this.orientation == "H") { // Horizontal Check
-            for (let i = 0; i < this.length; i++) {
-                if (r == this.r && c == this.c + i) {
-                    return true;
-                }
-            }
-        }
-        else { // Verticle Check
-            for (let i = 0; i < this.length; i++) {
-                if (r == this.r + i && c == this.c) {
-                    return true;
-                }
+        for (let i = 0; i < this.length; i++) {
+            coord = this.coords[i];
+            if (r == coord[0] && c == coord[1]) {
+                return true;
             }
         }
 
