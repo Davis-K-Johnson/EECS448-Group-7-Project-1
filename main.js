@@ -290,6 +290,7 @@ function clickCoord(x, y)
             }
         }
     }
+    console.log("clickBoard");
     console.log(col, row);
     console.log(playerBoard);
     //return the col, row, and playerBoard values inside an object, reference them via clickCoord(event.pageX, event.pageY).row (or col).
@@ -301,24 +302,29 @@ function clickCoord(x, y)
 }
 // NOT FINISHED, NEEDS TO CHECK THE playerTurn VALUE BEFORE STARTING LOGIC TREE, .setKeyHit & .setGameHit need to be called with different boards, not the same board.
 function Shoot(r, c){
-    if( isValidShot(r, c) ){
-        if( isHit(r, c)){
-            ships[playerBoards[playerTurn].findHitShip(r, c)].setHit();
-            if ( ships[playerBoards[playerTurn].findHitShip(r, c)].isSunk() ){
-                const coords = ships[playerBoards[playerTurn].findHitShip(r, c)].getPosition();
-                playerBoards[playerTurn].setKeySunkShip(playerBoards[playerTurn].findHitShip(r, c) + 1, coords);
-                playerBoards[playerTurn].setGameSunkShip(playerBoards[playerTurn].findHitShip(r, c) + 1, coords);
+    if (isValidShot(r, c)) {
+        if(isHit(r, c)) {
+            
+            let sI = playerBoards[playerTurn].findHitShip(r, c);
+            playerBoards[playerTurn].ships[sI].setHit();
+
+            if (playerBoards[playerTurn].ships[sI].isSunk()) {
+                
+                let coords = playerBoards[playerTurn].ships[sI].getPosition();
+                playerBoards[op(playerTurn)].setKeySunkShip(sI + 1, coords);
+                playerBoards[playerTurn].setGameSunkShip(sI + 1, coords);
+                
                 if(playerBoards[playerTurn].isGameOver()){
                     gamePhase = "end";
                 }
             }
             else {
-                playerBoards[playerTurn].setKeyHit(r, c);
+                playerBoards[op(playerTurn)].setKeyHit(r, c);
                 playerBoards[playerTurn].setGameHit(r, c);
             }
         }
         else {
-            playerBoards[playerTurn].setKeyMiss(r, c);
+            playerBoards[op(playerTurn)].setKeyMiss(r, c);
             playerBoards[playerTurn].setGameMiss(r, c);
         }
     }
